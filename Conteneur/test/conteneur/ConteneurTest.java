@@ -5,6 +5,7 @@
  */
 package conteneur;
 
+import java.util.TreeMap;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -23,11 +24,16 @@ public class ConteneurTest {
     @Test
     public void testAjouter() {
         System.out.println("ajouter");
-        String cle = "a";
-        Integer valeur = 1;
-        Conteneur instance = new Conteneur();
+        Conteneur<Integer, String> instance = new Conteneur<>();
+        
+        // cas où la clé n'existe pas
         boolean expResult = true;
-        boolean result = instance.ajouter(cle, valeur);
+        boolean result = instance.ajouter(1, "a");
+        assertEquals(expResult, result);
+        
+        // cas où la clé existe déjà
+        expResult = false;
+        result = instance.ajouter(1, "b");
         assertEquals(expResult, result);
     }
 
@@ -90,12 +96,21 @@ public class ConteneurTest {
     @Test
     public void testClePrecedente() {
         System.out.println("clePrecedente");
-        Conteneur instance = new Conteneur();
-        Object expResult = null;
-        Object result = instance.clePrecedente();
+        
+        TreeMap<Integer, String> t = new TreeMap<>();
+        t.put(1, "a");
+        t.put(2, "b");
+        Conteneur<Integer, String> instance = new Conteneur<>(t);
+        
+        // cas où il y a une clé précédente
+        Integer expResult = 1;
+        Integer result = instance.clePrecedente();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+                
+        // cas où il n'y a pas de clé précédente
+        expResult = null;
+        result = instance.clePrecedente();
+        assertEquals(expResult, result);
     }
 
     /**
@@ -144,7 +159,7 @@ public class ConteneurTest {
     @Test
     public void testExiste() {
         System.out.println("existe");
-        Object cle = null;
+        Integer cle = null;
         Conteneur instance = new Conteneur();
         boolean expResult = false;
         boolean result = instance.existe(cle);
@@ -173,7 +188,7 @@ public class ConteneurTest {
     @Test
     public void testObtenir() {
         System.out.println("obtenir");
-        String cle = null;
+        Integer cle = null;
         Conteneur instance = new Conteneur();
         Object expResult = null;
         Object result = instance.obtenir(cle);
@@ -188,7 +203,7 @@ public class ConteneurTest {
     @Test
     public void testPositionner() {
         System.out.println("positionner");
-        String cle = null;
+        Integer cle = null;
         Conteneur instance = new Conteneur();
         instance.positionner(cle);
         // TODO review the generated test code and remove the default call to fail.
@@ -225,7 +240,7 @@ public class ConteneurTest {
     @Test
     public void testSauvegarder() {
         System.out.println("sauvegarder");
-        String nomFic = "";
+        String nomFic = "fichieerer.txt";
         Conteneur instance = new Conteneur();
         instance.sauvegarder(nomFic);
         // TODO review the generated test code and remove the default call to fail.
@@ -250,7 +265,7 @@ public class ConteneurTest {
     @Test
     public void testSupprimer() {
         System.out.println("supprimer");
-        Object cle = null;
+        Integer cle = null;
         Conteneur instance = new Conteneur();
         instance.supprimer(cle);
         // TODO review the generated test code and remove the default call to fail.
