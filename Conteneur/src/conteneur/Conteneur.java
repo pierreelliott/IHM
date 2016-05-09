@@ -20,21 +20,38 @@ public class Conteneur<K extends Comparable<K> & Serializable, V extends Seriali
     public Conteneur()
     {
         tM = new TreeMap();
+        cleCourante = null;
     }
     
-    public Conteneur(java.util.TreeMap<K, V> t)
+    public Conteneur(TreeMap<K, V> t)
     {
         tM = t;
+        cleCourante = tM.firstKey();
     }
     
     public boolean ajouter(K cle, V valeur)
     {
-        
+        if (tM.containsKey(cle))
+            return false;
+        tM.put(cle, valeur);
+        cleCourante = cle;
+        return true;
     }
     
-    public void charger(java.lang.String nomFic)
+    public void charger(String nomFic)
     {
-        
+        try{
+            File f1 = new File(nomFic);
+            FileInputStream fs = new FileInputStream(f1);
+            ObjectInputStream feObj = new ObjectInputStream(fs);
+            tM = (TreeMap<K, V>) feObj.readObject();
+            feObj.close();
+            if (!tM.isEmpty())
+                cleCourante = tM.firstKey(); 
+            
+        } catch(Exception e){
+            System.out.println(e.getMessage());
+        }
     }
     
     public K cleCourante()
@@ -44,12 +61,16 @@ public class Conteneur<K extends Comparable<K> & Serializable, V extends Seriali
     
     public K cleMax()
     {
-        return tM.lastKey();
+        if (!tM.isEmpty())
+            return tM.lastKey();
+        return null;
     }
     
     public K cleMin()
     {
-        return tM.firstKey();
+        if (!tM.isEmpty())
+            return tM.firstKey();
+        return null;
     }
     
     public K clePrecedente()
@@ -59,66 +80,79 @@ public class Conteneur<K extends Comparable<K> & Serializable, V extends Seriali
     
     public K cleSuivante()
     {
-        
+        return tM.higherKey(cleCourante);
     }
     
     public void dernier()
     {
-        
+        cleCourante = tM.lastKey();
     }
     
     public boolean estVide()
     {
-        
+        return tM.isEmpty();
     }
     
     public boolean existe(K cle)
     {
-        
+        return tM.containsKey(cle);
     }
     
     public int nbElements()
     {
-        
+        return tM.size();
     }
     
     public V obtenir(K cle)
     {
-        
+        return tM.get(cle);
     }
     
     public void positionner(K cle)
     {
-        
+        if (tM.containsKey(cle))
+            cleCourante = cle;
     }
     
     public void precedent()
     {
-        
+        if (tM.higherKey(cleCourante) != null)
+            cleCourante = tM.lowerKey(cleCourante);
     }
     
     public void premier()
     {
-        
+        cleCourante = tM.firstKey();
     }
     
-    public void sauvegarder(java.lang.String nomFic)
+    public void sauvegarder(String nomFic)
     {
-        
+        try{
+            File f1 = new File(nomFic);
+            FileOutputStream fs = new FileOutputStream(f1);
+            ObjectOutputStream fsObj = new ObjectOutputStream(fs);
+            fsObj.writeObject(tM);
+            fsObj.close();
+            
+        } catch(Exception e){
+            System.out.println(e.getMessage());
+        }
     }
     
     public void suivant()
     {
-        
+        if (tM.higherKey(cleCourante) != null)
+            cleCourante = tM.higherKey(cleCourante);
     }
     
     public void supprimer(K cle)
     {
-        
+        if (tM.containsKey(cle))
+            tM.remove(cle);
     }
     
     public void vider()
     {
-        
+        tM.clear();
     }
 }
