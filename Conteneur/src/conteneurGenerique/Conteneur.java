@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package conteneur;
+package conteneurGenerique;
 
 import java.io.*;
 import java.util.*;
@@ -105,7 +105,8 @@ public class Conteneur<K extends Comparable<K> & Serializable, V extends Seriali
     
     public V obtenir(K cle)
     {
-        return tM.get(cle);
+        if(!tM.isEmpty()) return tM.get(cle);
+        return null;
     }
     
     public void positionner(K cle)
@@ -122,7 +123,8 @@ public class Conteneur<K extends Comparable<K> & Serializable, V extends Seriali
     
     public void premier()
     {
-        cleCourante = tM.firstKey();
+        if(!tM.isEmpty())
+            cleCourante = tM.firstKey();
     }
     
     public void sauvegarder(String nomFic)
@@ -148,11 +150,15 @@ public class Conteneur<K extends Comparable<K> & Serializable, V extends Seriali
     public void supprimer(K cle)
     {
         if (tM.containsKey(cle))
+            cleCourante = tM.higherKey(cle);
+            if(cleCourante == null)
+                cleCourante = tM.lowerKey(cle);
             tM.remove(cle);
     }
     
     public void vider()
     {
         tM.clear();
+        cleCourante = null;
     }
 }

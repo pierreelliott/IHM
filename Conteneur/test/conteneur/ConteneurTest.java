@@ -5,9 +5,11 @@
  */
 package conteneur;
 
+import conteneurGenerique.Conteneur;
 import java.util.TreeMap;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.*;
 
 /**
  *
@@ -15,25 +17,64 @@ import static org.junit.Assert.*;
  */
 public class ConteneurTest {
     
+    private static Conteneur<Integer, String> instance;
+    
     public ConteneurTest() {
     }
+    
+    @BeforeClass
+    public static void setUpClass(){
+        //on crée une instance unConteneur du conteneur
+        TreeMap<Integer, String> tM = new TreeMap<>();
+        tM.put(1, "bleu");
+        tM.put(2, "blanc");
+        tM.put(3, "rouge");
+        
+        instance = new Conteneur<>(tM);
+        System.out.println("On a rempli le conteneur de 3 éléments");
+    }
+    
 
     /**
      * Test of ajouter method, of class Conteneur.
      */
-    @Test
+    @Test       //################## Fait
     public void testAjouter() {
         System.out.println("ajouter");
-        Conteneur<Integer, String> instance = new Conteneur<>();
         
         // cas où la clé n'existe pas
         boolean expResult = true;
-        boolean result = instance.ajouter(1, "a");
+        boolean result = instance.ajouter(4, "vert");
         assertEquals(expResult, result);
         
         // cas où la clé existe déjà
         expResult = false;
-        result = instance.ajouter(1, "b");
+        result = instance.ajouter(1, "rose");
+        assertEquals(expResult, result);
+    }
+    
+    /**
+     * Test of cleCourante method, of class Conteneur.
+     */
+    @Test
+    public void testCleCourante() {
+        System.out.println("cleCourante");
+        Integer expResult = 3;
+        Integer result = instance.cleCourante();
+        assertEquals("faux, ils sont différents",expResult, result);
+        
+        expResult = 1;
+        assertNotSame(expResult, result);
+    }
+    
+    /**
+     * Test of cleMax method, of class Conteneur.
+     */
+    @Test
+    public void testCleMax() {
+        System.out.println("cleMax");
+        Integer expResult = 3;
+        Integer result = instance.cleMax();
         assertEquals(expResult, result);
     }
 
@@ -44,37 +85,12 @@ public class ConteneurTest {
     public void testCharger() {
         System.out.println("charger");
         String nomFic = "fichier.txt";
-        Conteneur instance = new Conteneur();
         instance.charger(nomFic);
     }
 
-    /**
-     * Test of cleCourante method, of class Conteneur.
-     */
-    @Test
-    public void testCleCourante() {
-        System.out.println("cleCourante");
-        Conteneur instance = new Conteneur();
-        Object expResult = null;
-        Object result = instance.cleCourante();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+    
 
-    /**
-     * Test of cleMax method, of class Conteneur.
-     */
-    @Test
-    public void testCleMax() {
-        System.out.println("cleMax");
-        Conteneur instance = new Conteneur();
-        Object expResult = null;
-        Object result = instance.cleMax();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+    
 
     /**
      * Test of cleMin method, of class Conteneur.
@@ -93,14 +109,9 @@ public class ConteneurTest {
     /**
      * Test of clePrecedente method, of class Conteneur.
      */
-    @Test
+    @Test       //################## Fait
     public void testClePrecedente() {
         System.out.println("clePrecedente");
-        
-        TreeMap<Integer, String> t = new TreeMap<>();
-        t.put(1, "a");
-        t.put(2, "b");
-        Conteneur<Integer, String> instance = new Conteneur<>(t);
         
         // cas où il y a une clé précédente
         Integer expResult = 1;
