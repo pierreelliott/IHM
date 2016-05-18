@@ -5,6 +5,7 @@
  */
 package presentation;
 import conteneurGenerique.*;
+import java.awt.Color;
 import metier.*;
 
 /**
@@ -35,23 +36,133 @@ public class gesPers extends javax.swing.JFrame {
         //this.afficher();
     }
     
-    private void modeAffichage(){
+    private void modeAffichage()
+    {
         modeCourant = ModeCourant.AFFICHAGE;
         labelMode.setText("MODE AFFICHAGE");
         
         boutonChercher.setEnabled(false);
-        
         boutonSuppr.setEnabled(false);
-        
-        boutonChercher.setEnabled(false);
-        
+        boutonCreer.setEnabled(false);
         boutonDebut.setEnabled(false);
-        
         boutonPrec.setEnabled(false);
-        
         boutonSuiv.setEnabled(false);
-        
         boutonFin.setEnabled(false);
+        
+        boutonRecherche.setVisible(false);
+        
+        champNom.setEnabled(false);
+        champNom.setBackground(new Color(255, 255, 255));
+        
+        champTel.setEnabled(false);
+        champTel.setBackground(new Color(255, 255, 255));
+        
+        champMatricule.setEnabled(false);
+        champMatricule.setBackground(new Color(255, 255, 255));
+        
+        champTH.setEnabled(false);
+        champTH.setBackground(new Color(255, 255, 255));
+        
+        champNbHeures.setEnabled(false);
+        champNbHeures.setBackground(new Color(255, 255, 255));
+        
+        champIndemnite.setEnabled(false);
+        champIndemnite.setBackground(new Color(255, 255, 255));
+        
+        champVentes.setEnabled(false);
+        champVentes.setBackground(new Color(255, 255, 255));
+        
+        champPourcentage.setEnabled(false);
+        champPourcentage.setBackground(new Color(255, 255, 255));
+        
+        champMB.setEnabled(false);
+        champMB.setBackground(new Color(255, 255, 255));
+    }
+    
+    private void modeSaisie()
+    {
+        modeCourant = ModeCourant.SAISIE;
+        labelMode.setText("MODE SAISIE");
+        
+        boutonChercher.setEnabled(true);
+        boutonSuppr.setEnabled(true);
+        boutonCreer.setEnabled(true);
+        boutonDebut.setEnabled(true);
+        boutonPrec.setEnabled(true);
+        boutonSuiv.setEnabled(true);
+        boutonFin.setEnabled(true);
+        
+        boutonRecherche.setVisible(false);
+
+        champNom.setEnabled(false);
+        champNom.setBackground(new Color(255, 255, 204));
+        
+        champTel.setEnabled(false);
+        champTel.setBackground(new Color(255, 255, 204));
+        
+        champMatricule.setEnabled(false);
+        champMatricule.setBackground(new Color(255, 255, 204));
+        
+        champTH.setEnabled(false);
+        champTH.setBackground(new Color(255, 255, 204));
+        
+        champNbHeures.setEnabled(false);
+        champNbHeures.setBackground(new Color(255, 255, 204));
+        
+        champIndemnite.setEnabled(false);
+        champIndemnite.setBackground(new Color(255, 255, 204));
+        
+        champVentes.setEnabled(false);
+        champVentes.setBackground(new Color(255, 255, 204));
+        
+        champPourcentage.setEnabled(false);
+        champPourcentage.setBackground(new Color(255, 255, 204));
+        
+        champMB.setEnabled(false);
+        champMB.setBackground(new Color(255, 255, 204));
+    }
+    
+    private void modeRecherche()
+    {
+        modeCourant = ModeCourant.RECHERCHE;
+        labelMode.setText("MODE RECHERCHE");
+        
+        boutonChercher.setEnabled(true);
+        boutonSuppr.setEnabled(false);
+        boutonCreer.setEnabled(false);
+        boutonDebut.setEnabled(false);
+        boutonPrec.setEnabled(false);
+        boutonSuiv.setEnabled(false);
+        boutonFin.setEnabled(false);
+        
+        boutonRecherche.setVisible(true);
+
+        champNom.setEnabled(true);
+        champNom.setBackground(new Color(255, 255, 255));
+        
+        champTel.setEnabled(true);
+        champTel.setBackground(new Color(255, 255, 255));
+        
+        champMatricule.setEnabled(true);
+        champMatricule.setBackground(new Color(255, 255, 255));
+        
+        champTH.setEnabled(true);
+        champTH.setBackground(new Color(255, 255, 255));
+        
+        champNbHeures.setEnabled(true);
+        champNbHeures.setBackground(new Color(255, 255, 255));
+        
+        champIndemnite.setEnabled(true);
+        champIndemnite.setBackground(new Color(255, 255, 255));
+        
+        champVentes.setEnabled(true);
+        champVentes.setBackground(new Color(255, 255, 255));
+        
+        champPourcentage.setEnabled(true);
+        champPourcentage.setBackground(new Color(255, 255, 255));
+        
+        champMB.setEnabled(true);
+        champMB.setBackground(new Color(255, 255, 255));
     }
 
     /**
@@ -73,6 +184,7 @@ public class gesPers extends javax.swing.JFrame {
         labelNom = new javax.swing.JLabel();
         labelTel = new javax.swing.JLabel();
         labelMatricule = new javax.swing.JLabel();
+        boutonRecherche = new javax.swing.JButton();
         panelTypeEmp = new javax.swing.JPanel();
         rBoutonEmp = new javax.swing.JRadioButton();
         rBoutonComm = new javax.swing.JRadioButton();
@@ -80,10 +192,10 @@ public class gesPers extends javax.swing.JFrame {
         panelInfoRemune = new javax.swing.JPanel();
         champTH = new javax.swing.JFormattedTextField();
         champNbHeures = new javax.swing.JFormattedTextField();
-        champIndemn = new javax.swing.JFormattedTextField();
+        champIndemnite = new javax.swing.JFormattedTextField();
         labelTH = new javax.swing.JLabel();
         labelNbHeures = new javax.swing.JLabel();
-        labelIndemn = new javax.swing.JLabel();
+        labelIndemnite = new javax.swing.JLabel();
         champMB = new javax.swing.JFormattedTextField();
         champPourcentage = new javax.swing.JFormattedTextField();
         labelMB = new javax.swing.JLabel();
@@ -128,16 +240,12 @@ public class gesPers extends javax.swing.JFrame {
 
         panelInfoGene.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Informations générales", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(10, 66, 255))); // NOI18N
 
-        champNom.setBackground(new java.awt.Color(255, 255, 204));
         champNom.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 champNomActionPerformed(evt);
             }
         });
 
-        champTel.setBackground(new java.awt.Color(255, 255, 204));
-
-        champMatricule.setBackground(new java.awt.Color(255, 255, 204));
         champMatricule.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 champMatriculeActionPerformed(evt);
@@ -152,6 +260,8 @@ public class gesPers extends javax.swing.JFrame {
 
         labelMatricule.setText("Matricule");
 
+        boutonRecherche.setText("Recherche");
+
         javax.swing.GroupLayout panelInfoGeneLayout = new javax.swing.GroupLayout(panelInfoGene);
         panelInfoGene.setLayout(panelInfoGeneLayout);
         panelInfoGeneLayout.setHorizontalGroup(
@@ -159,33 +269,35 @@ public class gesPers extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelInfoGeneLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelInfoGeneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelNom, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelTel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(labelTel, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelNom, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelInfoGeneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(panelInfoGeneLayout.createSequentialGroup()
                         .addComponent(champTel, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(31, 31, 31)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(labelMatricule)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(champMatricule))
-                    .addComponent(champNom, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(51, 51, 51))
+                        .addComponent(champMatricule, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(champNom))
+                .addGap(18, 18, 18)
+                .addComponent(boutonRecherche)
+                .addGap(32, 32, 32))
         );
         panelInfoGeneLayout.setVerticalGroup(
             panelInfoGeneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelInfoGeneLayout.createSequentialGroup()
                 .addGap(24, 24, 24)
-                .addGroup(panelInfoGeneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(champNom)
-                    .addComponent(labelNom, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(panelInfoGeneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelNom, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(champNom))
                 .addGap(18, 18, 18)
-                .addGroup(panelInfoGeneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(panelInfoGeneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(champTel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(champMatricule, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(labelMatricule))
-                    .addComponent(labelTel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(panelInfoGeneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelTel)
+                    .addComponent(champTel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelMatricule)
+                    .addComponent(champMatricule, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(boutonRecherche))
                 .addContainerGap(23, Short.MAX_VALUE))
         );
 
@@ -232,27 +344,15 @@ public class gesPers extends javax.swing.JFrame {
 
         panelInfoRemune.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Informations pour le calcul de la rémunération", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(10, 66, 255))); // NOI18N
 
-        champTH.setBackground(new java.awt.Color(255, 255, 204));
-
-        champNbHeures.setBackground(new java.awt.Color(255, 255, 204));
-
-        champIndemn.setBackground(new java.awt.Color(255, 255, 204));
-
         labelTH.setText("Taux horaire");
 
         labelNbHeures.setText("Nombre d'heures");
 
-        labelIndemn.setText("Indemnités");
-
-        champMB.setBackground(new java.awt.Color(255, 255, 204));
-
-        champPourcentage.setBackground(new java.awt.Color(255, 255, 204));
+        labelIndemnite.setText("Indemnités");
 
         labelMB.setText("Montant brut");
 
         labelPourcentage.setText("Pourcentage");
-
-        champVentes.setBackground(new java.awt.Color(255, 255, 204));
 
         labelVentes.setText("Ventes");
 
@@ -265,13 +365,13 @@ public class gesPers extends javax.swing.JFrame {
                 .addGroup(panelInfoRemuneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(labelTH, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(labelNbHeures, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelIndemn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(labelIndemnite, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(panelInfoRemuneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(champNbHeures, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
                     .addComponent(champTH)
-                    .addComponent(champIndemn))
-                .addGap(18, 53, Short.MAX_VALUE)
+                    .addComponent(champIndemnite))
+                .addGap(18, 18, Short.MAX_VALUE)
                 .addGroup(panelInfoRemuneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(panelInfoRemuneLayout.createSequentialGroup()
                         .addComponent(labelMB)
@@ -302,8 +402,8 @@ public class gesPers extends javax.swing.JFrame {
                             .addComponent(labelNbHeures))
                         .addGap(18, 18, 18)
                         .addGroup(panelInfoRemuneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(champIndemn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(labelIndemn)))
+                            .addComponent(champIndemnite, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(labelIndemnite)))
                     .addGroup(panelInfoRemuneLayout.createSequentialGroup()
                         .addGroup(panelInfoRemuneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(champVentes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -352,7 +452,7 @@ public class gesPers extends javax.swing.JFrame {
                 .addComponent(boutonChercher, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(62, 62, 62)
                 .addComponent(boutonSuppr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(boutonCreer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(39, 39, 39))
             .addGroup(panelGestionContLayout.createSequentialGroup()
@@ -593,9 +693,10 @@ public class gesPers extends javax.swing.JFrame {
     private javax.swing.JButton boutonDebut;
     private javax.swing.JButton boutonFin;
     private javax.swing.JButton boutonPrec;
+    private javax.swing.JButton boutonRecherche;
     private javax.swing.JButton boutonSuiv;
     private javax.swing.JButton boutonSuppr;
-    private javax.swing.JFormattedTextField champIndemn;
+    private javax.swing.JFormattedTextField champIndemnite;
     private javax.swing.JFormattedTextField champMB;
     private javax.swing.JFormattedTextField champMatricule;
     private javax.swing.JFormattedTextField champNbHeures;
@@ -607,7 +708,7 @@ public class gesPers extends javax.swing.JFrame {
     private javax.swing.ButtonGroup groupeBEmp;
     private javax.swing.JLabel labelImgGerPer;
     private javax.swing.JLabel labelImgTeam;
-    private javax.swing.JLabel labelIndemn;
+    private javax.swing.JLabel labelIndemnite;
     private javax.swing.JLabel labelMB;
     private javax.swing.JLabel labelMatricule;
     private javax.swing.JLabel labelMode;

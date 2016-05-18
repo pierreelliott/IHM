@@ -196,21 +196,23 @@
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="labelTel" min="-2" pref="70" max="-2" attributes="0"/>
                       <Component id="labelNom" max="32767" attributes="0"/>
-                      <Component id="labelTel" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Group type="102" attributes="0">
                           <Component id="champTel" min="-2" pref="112" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="labelMatricule" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="champMatricule" max="32767" attributes="0"/>
+                          <Component id="champMatricule" min="-2" pref="78" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="champNom" min="-2" pref="274" max="-2" attributes="0"/>
+                      <Component id="champNom" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="boutonRecherche" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -218,18 +220,17 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="champNom" max="32767" attributes="0"/>
-                      <Component id="labelNom" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="labelNom" alignment="3" min="-2" pref="20" max="-2" attributes="0"/>
+                      <Component id="champNom" alignment="3" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="champTel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="champMatricule" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="labelMatricule" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <Component id="labelTel" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="labelTel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="champTel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelMatricule" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="champMatricule" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="boutonRecherche" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="23" max="32767" attributes="0"/>
               </Group>
@@ -238,28 +239,13 @@
       </Layout>
       <SubComponents>
         <Component class="javax.swing.JTextField" name="champNom">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="cc" green="ff" red="ff" type="rgb"/>
-            </Property>
-          </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="champNomActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JFormattedTextField" name="champTel">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="cc" green="ff" red="ff" type="rgb"/>
-            </Property>
-          </Properties>
         </Component>
         <Component class="javax.swing.JFormattedTextField" name="champMatricule">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="cc" green="ff" red="ff" type="rgb"/>
-            </Property>
-          </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="champMatriculeActionPerformed"/>
           </Events>
@@ -279,6 +265,11 @@
         <Component class="javax.swing.JLabel" name="labelMatricule">
           <Properties>
             <Property name="text" type="java.lang.String" value="Matricule"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="boutonRecherche">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Recherche"/>
           </Properties>
         </Component>
       </SubComponents>
@@ -372,15 +363,15 @@
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="labelTH" max="32767" attributes="0"/>
                       <Component id="labelNbHeures" max="32767" attributes="0"/>
-                      <Component id="labelIndemn" max="32767" attributes="0"/>
+                      <Component id="labelIndemnite" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="champNbHeures" alignment="0" pref="90" max="32767" attributes="0"/>
                       <Component id="champTH" alignment="0" max="32767" attributes="0"/>
-                      <Component id="champIndemn" max="32767" attributes="0"/>
+                      <Component id="champIndemnite" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace type="separate" pref="53" max="32767" attributes="0"/>
+                  <EmptySpace type="separate" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Group type="102" attributes="0">
                           <Component id="labelMB" min="-2" max="-2" attributes="0"/>
@@ -419,8 +410,8 @@
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="champIndemn" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="labelIndemn" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="champIndemnite" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="labelIndemnite" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
@@ -447,25 +438,10 @@
       </Layout>
       <SubComponents>
         <Component class="javax.swing.JFormattedTextField" name="champTH">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="cc" green="ff" red="ff" type="rgb"/>
-            </Property>
-          </Properties>
         </Component>
         <Component class="javax.swing.JFormattedTextField" name="champNbHeures">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="cc" green="ff" red="ff" type="rgb"/>
-            </Property>
-          </Properties>
         </Component>
-        <Component class="javax.swing.JFormattedTextField" name="champIndemn">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="cc" green="ff" red="ff" type="rgb"/>
-            </Property>
-          </Properties>
+        <Component class="javax.swing.JFormattedTextField" name="champIndemnite">
         </Component>
         <Component class="javax.swing.JLabel" name="labelTH">
           <Properties>
@@ -477,24 +453,14 @@
             <Property name="text" type="java.lang.String" value="Nombre d&apos;heures"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="labelIndemn">
+        <Component class="javax.swing.JLabel" name="labelIndemnite">
           <Properties>
             <Property name="text" type="java.lang.String" value="Indemnit&#xe9;s"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JFormattedTextField" name="champMB">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="cc" green="ff" red="ff" type="rgb"/>
-            </Property>
-          </Properties>
         </Component>
         <Component class="javax.swing.JFormattedTextField" name="champPourcentage">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="cc" green="ff" red="ff" type="rgb"/>
-            </Property>
-          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="labelMB">
           <Properties>
@@ -507,11 +473,6 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JFormattedTextField" name="champVentes">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="cc" green="ff" red="ff" type="rgb"/>
-            </Property>
-          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="labelVentes">
           <Properties>
@@ -539,7 +500,7 @@
                   <Component id="boutonChercher" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="62" max="-2" attributes="0"/>
                   <Component id="boutonSuppr" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="63" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
                   <Component id="boutonCreer" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
               </Group>
