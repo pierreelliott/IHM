@@ -5,11 +5,13 @@
  */
 package metier;
 
+import java.io.Serializable;
+
 /**
  *
  * @author p1402690
  */
-public abstract class Personnel {
+public abstract class Personnel implements Serializable{
     private final String numPers;
     private final String nomPers;
     private final String numTel;
