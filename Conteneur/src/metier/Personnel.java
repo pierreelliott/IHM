@@ -19,10 +19,10 @@ public abstract class Personnel implements Serializable{
     private static int nbPers = 1000;
     
     public Personnel(String nom, String tel){
-        nbPers ++;
+        nbPers++;
         this.nomPers = nom;
         this.numTel = tel;
-        this.numPers = ("M"+nbPers);
+        this.numPers = ("M" + nbPers);
     }
     
     public abstract float calculPaie();

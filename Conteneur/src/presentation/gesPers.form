@@ -365,6 +365,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Commercial"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rBoutonCommActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JRadioButton" name="rBoutonDir">
           <Properties>
@@ -373,6 +376,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Directeur"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rBoutonDirActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

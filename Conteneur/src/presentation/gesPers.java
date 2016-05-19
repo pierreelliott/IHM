@@ -31,7 +31,7 @@ public class gesPers extends javax.swing.JFrame {
         
         cont = new Conteneur<>();
         total = 0;
-        labelNbObjets.setText(""+total);
+        labelNbObjets.setText("0");
         
         this.modeAffichage();
         //this.afficher();
@@ -55,37 +55,20 @@ public class gesPers extends javax.swing.JFrame {
         boutonCreer.setText("Créer");
         
         champNom.setEnabled(false);
-        champNom.setBackground(new Color(255, 255, 204));
-        
         champTel.setEnabled(false);
-        champTel.setBackground(new Color(255, 255, 204));
-        
         champMatricule.setEnabled(false);
-        champMatricule.setBackground(new Color(255, 255, 204));
-        
         champTH.setEnabled(false);
-        champTH.setBackground(new Color(255, 255, 204));
-        
         champNbHeures.setEnabled(false);
-        champNbHeures.setBackground(new Color(255, 255, 204));
-        
         champIndemnite.setEnabled(false);
-        champIndemnite.setBackground(new Color(255, 255, 204));
-        
         champVentes.setEnabled(false);
-        champVentes.setBackground(new Color(255, 255, 204));
-        
         champPourcentage.setEnabled(false);
-        champPourcentage.setBackground(new Color(255, 255, 204));
-        
         champMB.setEnabled(false);
-        champMB.setBackground(new Color(255, 255, 204));
         
         rBoutonEmp.setEnabled(false);
         rBoutonComm.setEnabled(false);
         rBoutonDir.setEnabled(false);
         
-        
+        labelNbObjets.setText("" + total);
     }
     
     private void modeSaisie()
@@ -106,31 +89,37 @@ public class gesPers extends javax.swing.JFrame {
         boutonCreer.setText("Ajouter");
 
         champNom.setEnabled(true);
-        champNom.setBackground(new Color(255, 255, 255));
-        
         champTel.setEnabled(true);
-        champTel.setBackground(new Color(255, 255, 255));
+        champMatricule.setEnabled(false);
         
-        champMatricule.setEnabled(true);
-        champMatricule.setBackground(new Color(255, 255, 255));
-        
-        champTH.setEnabled(true);
-        champTH.setBackground(new Color(255, 255, 255));
-        
-        champNbHeures.setEnabled(true);
-        champNbHeures.setBackground(new Color(255, 255, 255));
-        
-        champIndemnite.setEnabled(true);
-        champIndemnite.setBackground(new Color(255, 255, 255));
-        
-        champVentes.setEnabled(true);
-        champVentes.setBackground(new Color(255, 255, 255));
-        
-        champPourcentage.setEnabled(true);
-        champPourcentage.setBackground(new Color(255, 255, 255));
-        
-        champMB.setEnabled(true);
-        champMB.setBackground(new Color(255, 255, 255));
+        switch(typePersonnel)
+        {
+            case EMPLOYE :
+                champTH.setEnabled(true);
+                champNbHeures.setEnabled(true);
+                champPourcentage.setEnabled(false);
+                champVentes.setEnabled(false);
+                champIndemnite.setEnabled(false);
+                break;
+                
+            case COMMERCIAL :
+                champTH.setEnabled(true);
+                champNbHeures.setEnabled(true);
+                champPourcentage.setEnabled(true);
+                champVentes.setEnabled(true);
+                champIndemnite.setEnabled(false);
+                break;
+                
+            case DIRECTEUR :
+                champIndemnite.setEnabled(true);
+                champTH.setEnabled(false);
+                champNbHeures.setEnabled(false);
+                champPourcentage.setEnabled(false);
+                champVentes.setEnabled(false);
+                break;
+        }
+
+        champMB.setEnabled(false);
         
         rBoutonEmp.setEnabled(true);
         rBoutonComm.setEnabled(true);
@@ -154,33 +143,15 @@ public class gesPers extends javax.swing.JFrame {
         boutonRecherche.setEnabled(true);
         boutonSuppr.setText("Annuler");
 
-
         champNom.setEnabled(true);
-        champNom.setBackground(new Color(255, 255, 255));
-        
         champTel.setEnabled(true);
-        champTel.setBackground(new Color(255, 255, 255));
-        
         champMatricule.setEnabled(true);
-        champMatricule.setBackground(new Color(255, 255, 255));
-        
         champTH.setEnabled(false);
-        champTH.setBackground(new Color(255, 255, 255));
-        
         champNbHeures.setEnabled(false);
-        champNbHeures.setBackground(new Color(255, 255, 255));
-        
         champIndemnite.setEnabled(false);
-        champIndemnite.setBackground(new Color(255, 255, 255));
-        
         champVentes.setEnabled(false);
-        champVentes.setBackground(new Color(255, 255, 255));
-        
         champPourcentage.setEnabled(false);
-        champPourcentage.setBackground(new Color(255, 255, 255));
-        
         champMB.setEnabled(false);
-        champMB.setBackground(new Color(255, 255, 255));
     }
 
     /**
@@ -253,13 +224,13 @@ public class gesPers extends javax.swing.JFrame {
         labelImgTeam.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelImgTeam.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/logo1_team.gif"))); // NOI18N
         labelImgTeam.setToolTipText("");
-        labelImgTeam.setBorder(javax.swing.BorderFactory.createBevelBorder(1));
+        labelImgTeam.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
 
         labelImgGerPer.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelImgGerPer.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelImgGerPer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/logo2_gesper.gif"))); // NOI18N
 
-        panelInfoGene.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Informations générales", 0, 0, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(10, 66, 255))); // NOI18N
+        panelInfoGene.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Informations générales", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(10, 66, 255))); // NOI18N
 
         champNom.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -330,7 +301,7 @@ public class gesPers extends javax.swing.JFrame {
                 .addContainerGap(25, Short.MAX_VALUE))
         );
 
-        panelTypeEmp.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Choix du type de l'employé", 0, 0, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(10, 66, 255))); // NOI18N
+        panelTypeEmp.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Choix du type de l'employé", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(10, 66, 255))); // NOI18N
 
         groupeBEmp.add(rBoutonEmp);
         rBoutonEmp.setSelected(true);
@@ -343,9 +314,19 @@ public class gesPers extends javax.swing.JFrame {
 
         groupeBEmp.add(rBoutonComm);
         rBoutonComm.setText("Commercial");
+        rBoutonComm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rBoutonCommActionPerformed(evt);
+            }
+        });
 
         groupeBEmp.add(rBoutonDir);
         rBoutonDir.setText("Directeur");
+        rBoutonDir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rBoutonDirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelTypeEmpLayout = new javax.swing.GroupLayout(panelTypeEmp);
         panelTypeEmp.setLayout(panelTypeEmpLayout);
@@ -371,7 +352,7 @@ public class gesPers extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        panelInfoRemune.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Informations pour le calcul de la rémunération", 0, 0, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(10, 66, 255))); // NOI18N
+        panelInfoRemune.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Informations pour le calcul de la rémunération", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(10, 66, 255))); // NOI18N
 
         labelTH.setText("Taux horaire");
 
@@ -448,7 +429,7 @@ public class gesPers extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        panelGestionCont.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Gestion du conteneur", 0, 0, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(10, 66, 255))); // NOI18N
+        panelGestionCont.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Gestion du conteneur", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(10, 66, 255))); // NOI18N
 
         boutonChercher.setText("Chercher");
         boutonChercher.setMaximumSize(new java.awt.Dimension(90, 23));
@@ -521,7 +502,7 @@ public class gesPers extends javax.swing.JFrame {
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
-        panelNavCont.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Navigation dans le conteneur", 0, 0, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(10, 66, 255))); // NOI18N
+        panelNavCont.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Navigation dans le conteneur", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(10, 66, 255))); // NOI18N
 
         boutonDebut.setText("Début");
         boutonDebut.setMaximumSize(new java.awt.Dimension(70, 23));
@@ -708,7 +689,8 @@ public class gesPers extends javax.swing.JFrame {
     }//GEN-LAST:event_menuSauvegarderActionPerformed
 
     private void rBoutonEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rBoutonEmpActionPerformed
-        // TODO add your handling code here:
+        typePersonnel = TypePersonnel.EMPLOYE;
+        this.modeSaisie();
     }//GEN-LAST:event_rBoutonEmpActionPerformed
 
     private void champMatriculeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_champMatriculeActionPerformed
@@ -730,7 +712,36 @@ public class gesPers extends javax.swing.JFrame {
     }//GEN-LAST:event_boutonDebutActionPerformed
 
     private void boutonCreerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boutonCreerActionPerformed
-        this.modeSaisie();
+        if(boutonCreer.getText().equals("Créer"))
+            this.modeSaisie();
+        else
+        {
+            switch(typePersonnel)
+            {
+                case EMPLOYE :
+                    cont.ajouter(champMatricule.getText(), new Employe(champNom.getText(),
+                                                                       champTel.getText(),
+                                                                       Float.parseFloat(champTH.getText()),
+                                                                       Float.parseFloat(champNbHeures.getText())) );
+                    break; 
+                case COMMERCIAL :
+                    cont.ajouter(champMatricule.getText(), new Commercial(champNom.getText(),
+                                                                          champTel.getText(),
+                                                                          Float.parseFloat(champTH.getText()),
+                                                                          Float.parseFloat(champNbHeures.getText()),
+                                                                          Float.parseFloat(champPourcentage.getText()),
+                                                                          Float.parseFloat(champVentes.getText())) );
+                    break;
+                case DIRECTEUR :
+                    cont.ajouter(champMatricule.getText(), new Directeur(champNom.getText(),
+                                                                         champTel.getText(),
+                                                                         Float.parseFloat(champIndemnite.getText())) );
+                    break;
+            } 
+            
+            ++total;
+            this.modeAffichage();
+        }
     }//GEN-LAST:event_boutonCreerActionPerformed
 
     private void boutonRechercheActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boutonRechercheActionPerformed
@@ -741,7 +752,13 @@ public class gesPers extends javax.swing.JFrame {
     private void boutonSupprActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boutonSupprActionPerformed
         if(modeCourant == ModeCourant.SAISIE || modeCourant == ModeCourant.RECHERCHE)
             this.modeAffichage();
-        // Reste code
+        else
+        {
+            cont.supprimer(champMatricule.getText());
+            if(--total < 0)
+                total = 0;
+            labelNbObjets.setText("" + total);
+        }
     }//GEN-LAST:event_boutonSupprActionPerformed
 
     private void menuFermerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuFermerActionPerformed
@@ -751,6 +768,16 @@ public class gesPers extends javax.swing.JFrame {
     private void menuFermerConteneurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuFermerConteneurActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_menuFermerConteneurActionPerformed
+
+    private void rBoutonCommActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rBoutonCommActionPerformed
+        typePersonnel = TypePersonnel.COMMERCIAL;
+        this.modeSaisie();
+    }//GEN-LAST:event_rBoutonCommActionPerformed
+
+    private void rBoutonDirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rBoutonDirActionPerformed
+        typePersonnel = TypePersonnel.DIRECTEUR;
+        this.modeSaisie();
+    }//GEN-LAST:event_rBoutonDirActionPerformed
 
     /**
      * @param args the command line arguments
