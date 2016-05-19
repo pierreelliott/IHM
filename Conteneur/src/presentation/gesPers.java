@@ -31,6 +31,7 @@ public class gesPers extends javax.swing.JFrame {
         
         cont = new Conteneur<>();
         total = 0;
+        labelNbObjets.setText(""+total);
         
         this.modeAffichage();
         //this.afficher();
@@ -41,49 +42,6 @@ public class gesPers extends javax.swing.JFrame {
         modeCourant = ModeCourant.AFFICHAGE;
         labelMode.setText("MODE AFFICHAGE");
         
-        boutonChercher.setEnabled(false);
-        boutonSuppr.setEnabled(false);
-        boutonCreer.setEnabled(false);
-        boutonDebut.setEnabled(false);
-        boutonPrec.setEnabled(false);
-        boutonSuiv.setEnabled(false);
-        boutonFin.setEnabled(false);
-        
-        boutonRecherche.setVisible(false);
-        
-        champNom.setEnabled(false);
-        champNom.setBackground(new Color(255, 255, 255));
-        
-        champTel.setEnabled(false);
-        champTel.setBackground(new Color(255, 255, 255));
-        
-        champMatricule.setEnabled(false);
-        champMatricule.setBackground(new Color(255, 255, 255));
-        
-        champTH.setEnabled(false);
-        champTH.setBackground(new Color(255, 255, 255));
-        
-        champNbHeures.setEnabled(false);
-        champNbHeures.setBackground(new Color(255, 255, 255));
-        
-        champIndemnite.setEnabled(false);
-        champIndemnite.setBackground(new Color(255, 255, 255));
-        
-        champVentes.setEnabled(false);
-        champVentes.setBackground(new Color(255, 255, 255));
-        
-        champPourcentage.setEnabled(false);
-        champPourcentage.setBackground(new Color(255, 255, 255));
-        
-        champMB.setEnabled(false);
-        champMB.setBackground(new Color(255, 255, 255));
-    }
-    
-    private void modeSaisie()
-    {
-        modeCourant = ModeCourant.SAISIE;
-        labelMode.setText("MODE SAISIE");
-        
         boutonChercher.setEnabled(true);
         boutonSuppr.setEnabled(true);
         boutonCreer.setEnabled(true);
@@ -93,7 +51,9 @@ public class gesPers extends javax.swing.JFrame {
         boutonFin.setEnabled(true);
         
         boutonRecherche.setVisible(false);
-
+        boutonSuppr.setText("Supprimer");
+        boutonCreer.setText("Créer");
+        
         champNom.setEnabled(false);
         champNom.setBackground(new Color(255, 255, 204));
         
@@ -120,22 +80,30 @@ public class gesPers extends javax.swing.JFrame {
         
         champMB.setEnabled(false);
         champMB.setBackground(new Color(255, 255, 204));
+        
+        rBoutonEmp.setEnabled(false);
+        rBoutonComm.setEnabled(false);
+        rBoutonDir.setEnabled(false);
+        
+        
     }
     
-    private void modeRecherche()
+    private void modeSaisie()
     {
-        modeCourant = ModeCourant.RECHERCHE;
-        labelMode.setText("MODE RECHERCHE");
+        modeCourant = ModeCourant.SAISIE;
+        labelMode.setText("MODE SAISIE");
         
-        boutonChercher.setEnabled(true);
-        boutonSuppr.setEnabled(false);
-        boutonCreer.setEnabled(false);
+        boutonChercher.setEnabled(false);
+        boutonSuppr.setEnabled(true);
+        boutonCreer.setEnabled(true);
         boutonDebut.setEnabled(false);
         boutonPrec.setEnabled(false);
         boutonSuiv.setEnabled(false);
         boutonFin.setEnabled(false);
         
-        boutonRecherche.setVisible(true);
+        boutonRecherche.setVisible(false);
+        boutonSuppr.setText("Annuler");
+        boutonCreer.setText("Ajouter");
 
         champNom.setEnabled(true);
         champNom.setBackground(new Color(255, 255, 255));
@@ -162,6 +130,56 @@ public class gesPers extends javax.swing.JFrame {
         champPourcentage.setBackground(new Color(255, 255, 255));
         
         champMB.setEnabled(true);
+        champMB.setBackground(new Color(255, 255, 255));
+        
+        rBoutonEmp.setEnabled(true);
+        rBoutonComm.setEnabled(true);
+        rBoutonDir.setEnabled(true);
+    }
+    
+    private void modeRecherche()
+    {
+        modeCourant = ModeCourant.RECHERCHE;
+        labelMode.setText("MODE RECHERCHE");
+        
+        boutonChercher.setEnabled(true);
+        boutonSuppr.setEnabled(true);
+        boutonCreer.setEnabled(false);
+        boutonDebut.setEnabled(false);
+        boutonPrec.setEnabled(false);
+        boutonSuiv.setEnabled(false);
+        boutonFin.setEnabled(false);
+        
+        boutonRecherche.setVisible(true);
+        boutonRecherche.setEnabled(true);
+        boutonSuppr.setText("Annuler");
+
+
+        champNom.setEnabled(true);
+        champNom.setBackground(new Color(255, 255, 255));
+        
+        champTel.setEnabled(true);
+        champTel.setBackground(new Color(255, 255, 255));
+        
+        champMatricule.setEnabled(true);
+        champMatricule.setBackground(new Color(255, 255, 255));
+        
+        champTH.setEnabled(false);
+        champTH.setBackground(new Color(255, 255, 255));
+        
+        champNbHeures.setEnabled(false);
+        champNbHeures.setBackground(new Color(255, 255, 255));
+        
+        champIndemnite.setEnabled(false);
+        champIndemnite.setBackground(new Color(255, 255, 255));
+        
+        champVentes.setEnabled(false);
+        champVentes.setBackground(new Color(255, 255, 255));
+        
+        champPourcentage.setEnabled(false);
+        champPourcentage.setBackground(new Color(255, 255, 255));
+        
+        champMB.setEnabled(false);
         champMB.setBackground(new Color(255, 255, 255));
     }
 
@@ -219,6 +237,9 @@ public class gesPers extends javax.swing.JFrame {
         menuNouveau = new javax.swing.JMenuItem();
         menuCharger = new javax.swing.JMenuItem();
         menuSauvegarder = new javax.swing.JMenuItem();
+        menuFermerConteneur = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        menuFermer = new javax.swing.JMenuItem();
         menuAutre = new javax.swing.JMenu();
         menuAPropos = new javax.swing.JMenuItem();
         sepMenuAutre = new javax.swing.JPopupMenu.Separator();
@@ -232,13 +253,13 @@ public class gesPers extends javax.swing.JFrame {
         labelImgTeam.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelImgTeam.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/logo1_team.gif"))); // NOI18N
         labelImgTeam.setToolTipText("");
-        labelImgTeam.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        labelImgTeam.setBorder(javax.swing.BorderFactory.createBevelBorder(1));
 
         labelImgGerPer.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelImgGerPer.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelImgGerPer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/logo2_gesper.gif"))); // NOI18N
 
-        panelInfoGene.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Informations générales", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(10, 66, 255))); // NOI18N
+        panelInfoGene.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Informations générales", 0, 0, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(10, 66, 255))); // NOI18N
 
         champNom.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -246,6 +267,7 @@ public class gesPers extends javax.swing.JFrame {
             }
         });
 
+        champMatricule.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         champMatricule.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 champMatriculeActionPerformed(evt);
@@ -261,6 +283,13 @@ public class gesPers extends javax.swing.JFrame {
         labelMatricule.setText("Matricule");
 
         boutonRecherche.setText("Recherche");
+        boutonRecherche.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        boutonRecherche.setEnabled(false);
+        boutonRecherche.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                boutonRechercheActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelInfoGeneLayout = new javax.swing.GroupLayout(panelInfoGene);
         panelInfoGene.setLayout(panelInfoGeneLayout);
@@ -268,40 +297,40 @@ public class gesPers extends javax.swing.JFrame {
             panelInfoGeneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelInfoGeneLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panelInfoGeneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelTel, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panelInfoGeneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(labelTel, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
                     .addComponent(labelNom, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(10, 10, 10)
                 .addGroup(panelInfoGeneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(panelInfoGeneLayout.createSequentialGroup()
-                        .addComponent(champTel, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(labelMatricule)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(champMatricule, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(champTel, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(labelMatricule))
                     .addComponent(champNom))
-                .addGap(18, 18, 18)
-                .addComponent(boutonRecherche)
-                .addGap(32, 32, 32))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelInfoGeneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(boutonRecherche)
+                    .addComponent(champMatricule, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelInfoGeneLayout.setVerticalGroup(
             panelInfoGeneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelInfoGeneLayout.createSequentialGroup()
-                .addGap(24, 24, 24)
+                .addGap(23, 23, 23)
                 .addGroup(panelInfoGeneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelNom, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(champNom))
+                    .addComponent(champNom)
+                    .addComponent(boutonRecherche))
                 .addGap(18, 18, 18)
                 .addGroup(panelInfoGeneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelTel)
                     .addComponent(champTel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelMatricule)
-                    .addComponent(champMatricule, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(boutonRecherche))
-                .addContainerGap(23, Short.MAX_VALUE))
+                    .addComponent(champMatricule, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
-        panelTypeEmp.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Choix du type de l'employé", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(10, 66, 255))); // NOI18N
+        panelTypeEmp.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Choix du type de l'employé", 0, 0, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(10, 66, 255))); // NOI18N
 
         groupeBEmp.add(rBoutonEmp);
         rBoutonEmp.setSelected(true);
@@ -342,7 +371,7 @@ public class gesPers extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        panelInfoRemune.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Informations pour le calcul de la rémunération", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(10, 66, 255))); // NOI18N
+        panelInfoRemune.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Informations pour le calcul de la rémunération", 0, 0, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(10, 66, 255))); // NOI18N
 
         labelTH.setText("Taux horaire");
 
@@ -419,24 +448,39 @@ public class gesPers extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        panelGestionCont.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Gestion du conteneur", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(10, 66, 255))); // NOI18N
+        panelGestionCont.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Gestion du conteneur", 0, 0, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(10, 66, 255))); // NOI18N
 
         boutonChercher.setText("Chercher");
-        boutonChercher.setMaximumSize(new java.awt.Dimension(85, 23));
-        boutonChercher.setMinimumSize(new java.awt.Dimension(85, 23));
-        boutonChercher.setPreferredSize(new java.awt.Dimension(85, 23));
+        boutonChercher.setMaximumSize(new java.awt.Dimension(90, 23));
+        boutonChercher.setMinimumSize(new java.awt.Dimension(90, 23));
+        boutonChercher.setPreferredSize(new java.awt.Dimension(90, 23));
+        boutonChercher.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                boutonChercherActionPerformed(evt);
+            }
+        });
 
         boutonSuppr.setText("Supprimer");
-        boutonSuppr.setMaximumSize(new java.awt.Dimension(85, 23));
-        boutonSuppr.setMinimumSize(new java.awt.Dimension(85, 23));
-        boutonSuppr.setPreferredSize(new java.awt.Dimension(85, 23));
+        boutonSuppr.setMaximumSize(new java.awt.Dimension(90, 23));
+        boutonSuppr.setMinimumSize(new java.awt.Dimension(90, 23));
+        boutonSuppr.setPreferredSize(new java.awt.Dimension(90, 23));
+        boutonSuppr.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                boutonSupprActionPerformed(evt);
+            }
+        });
 
         boutonCreer.setText("Créer");
         boutonCreer.setToolTipText("Créer une nouvelle instance");
         boutonCreer.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        boutonCreer.setMaximumSize(new java.awt.Dimension(85, 23));
-        boutonCreer.setMinimumSize(new java.awt.Dimension(85, 23));
-        boutonCreer.setPreferredSize(new java.awt.Dimension(85, 23));
+        boutonCreer.setMaximumSize(new java.awt.Dimension(90, 23));
+        boutonCreer.setMinimumSize(new java.awt.Dimension(90, 23));
+        boutonCreer.setPreferredSize(new java.awt.Dimension(90, 23));
+        boutonCreer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                boutonCreerActionPerformed(evt);
+            }
+        });
 
         labelTexte.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
         labelTexte.setText("Nombre d'objets présents dans le conteneur :");
@@ -451,7 +495,7 @@ public class gesPers extends javax.swing.JFrame {
                 .addGap(35, 35, 35)
                 .addComponent(boutonChercher, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(62, 62, 62)
-                .addComponent(boutonSuppr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(boutonSuppr, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(boutonCreer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(39, 39, 39))
@@ -460,7 +504,7 @@ public class gesPers extends javax.swing.JFrame {
                 .addComponent(labelTexte)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(labelNbObjets)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(136, Short.MAX_VALUE))
         );
         panelGestionContLayout.setVerticalGroup(
             panelGestionContLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -477,12 +521,17 @@ public class gesPers extends javax.swing.JFrame {
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
-        panelNavCont.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Navigation dans le conteneur", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(10, 66, 255))); // NOI18N
+        panelNavCont.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Navigation dans le conteneur", 0, 0, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(10, 66, 255))); // NOI18N
 
         boutonDebut.setText("Début");
         boutonDebut.setMaximumSize(new java.awt.Dimension(70, 23));
         boutonDebut.setMinimumSize(new java.awt.Dimension(70, 23));
         boutonDebut.setPreferredSize(new java.awt.Dimension(70, 23));
+        boutonDebut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                boutonDebutActionPerformed(evt);
+            }
+        });
 
         boutonPrec.setText("<<");
         boutonPrec.setMaximumSize(new java.awt.Dimension(70, 23));
@@ -514,7 +563,7 @@ public class gesPers extends javax.swing.JFrame {
                 .addComponent(boutonDebut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(32, 32, 32)
                 .addComponent(boutonPrec, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
                 .addComponent(boutonSuiv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(34, 34, 34)
                 .addComponent(boutonFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -561,6 +610,23 @@ public class gesPers extends javax.swing.JFrame {
         });
         menuFichier.add(menuSauvegarder);
 
+        menuFermerConteneur.setText("Fermer le conteneur courant");
+        menuFermerConteneur.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuFermerConteneurActionPerformed(evt);
+            }
+        });
+        menuFichier.add(menuFermerConteneur);
+        menuFichier.add(jSeparator2);
+
+        menuFermer.setText("Fermer");
+        menuFermer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuFermerActionPerformed(evt);
+            }
+        });
+        menuFichier.add(menuFermer);
+
         menu.add(menuFichier);
 
         menuAutre.setText("?");
@@ -581,23 +647,24 @@ public class gesPers extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(labelImgTeam)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(37, 37, 37)
-                                .addComponent(labelImgGerPer))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(64, 64, 64)
-                                .addComponent(labelMode, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(panelNavCont, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(panelGestionCont, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(panelInfoRemune, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(panelTypeEmp, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(panelInfoGene, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(panelInfoGene, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(11, 11, 11)
+                        .addComponent(labelImgTeam)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(26, 26, 26)
+                                .addComponent(labelImgGerPer))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(53, 53, 53)
+                                .addComponent(labelMode, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -649,8 +716,41 @@ public class gesPers extends javax.swing.JFrame {
     }//GEN-LAST:event_champMatriculeActionPerformed
 
     private void boutonSuivActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boutonSuivActionPerformed
-        // TODO add your handling code here:
+        cont.suivant();
+        this.modeAffichage();
     }//GEN-LAST:event_boutonSuivActionPerformed
+
+    private void boutonChercherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boutonChercherActionPerformed
+        this.modeRecherche();
+    }//GEN-LAST:event_boutonChercherActionPerformed
+
+    private void boutonDebutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boutonDebutActionPerformed
+        cont.premier();
+        modeAffichage();
+    }//GEN-LAST:event_boutonDebutActionPerformed
+
+    private void boutonCreerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boutonCreerActionPerformed
+        this.modeSaisie();
+    }//GEN-LAST:event_boutonCreerActionPerformed
+
+    private void boutonRechercheActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boutonRechercheActionPerformed
+        // Action à mettre
+        this.modeAffichage();
+    }//GEN-LAST:event_boutonRechercheActionPerformed
+
+    private void boutonSupprActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boutonSupprActionPerformed
+        if(modeCourant == ModeCourant.SAISIE || modeCourant == ModeCourant.RECHERCHE)
+            this.modeAffichage();
+        // Reste code
+    }//GEN-LAST:event_boutonSupprActionPerformed
+
+    private void menuFermerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuFermerActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_menuFermerActionPerformed
+
+    private void menuFermerConteneurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuFermerConteneurActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_menuFermerConteneurActionPerformed
 
     /**
      * @param args the command line arguments
@@ -706,6 +806,7 @@ public class gesPers extends javax.swing.JFrame {
     private javax.swing.JFormattedTextField champTel;
     private javax.swing.JFormattedTextField champVentes;
     private javax.swing.ButtonGroup groupeBEmp;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JLabel labelImgGerPer;
     private javax.swing.JLabel labelImgTeam;
     private javax.swing.JLabel labelIndemnite;
@@ -725,6 +826,8 @@ public class gesPers extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuAide;
     private javax.swing.JMenu menuAutre;
     private javax.swing.JMenuItem menuCharger;
+    private javax.swing.JMenuItem menuFermer;
+    private javax.swing.JMenuItem menuFermerConteneur;
     private javax.swing.JMenu menuFichier;
     private javax.swing.JMenuItem menuNouveau;
     private javax.swing.JMenuItem menuSauvegarder;
