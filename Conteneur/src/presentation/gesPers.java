@@ -69,6 +69,18 @@ public class gesPers extends javax.swing.JFrame {
         rBoutonDir.setEnabled(false);
         
         labelNbObjets.setText("" + total);
+        
+        champNom.setText(cont.obtenir(cont.cleCourante()).getNomPers());
+        champMatricule.setText(cont.obtenir(cont.cleCourante()).getNumPers());
+        champTel.setText(cont.obtenir(cont.cleCourante()).getNumTel());
+        switch(cont.obtenir(cont.cleCourante()).getClass().toString()){
+            case "Employe": 
+                        break;
+            case "Commercial":
+                        break;
+            case "Directeur":
+                        break;
+        }
     }
     
     private void modeSaisie()
