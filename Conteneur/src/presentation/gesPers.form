@@ -51,12 +51,12 @@
             </MenuItem>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator2">
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="menuFermer">
+            <MenuItem class="javax.swing.JMenuItem" name="menuQuitter">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Fermer"/>
+                <Property name="text" type="java.lang.String" value="Quitter"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuFermerActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuQuitterActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>
@@ -714,6 +714,9 @@
               <Dimension value="[70, 23]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="boutonPrecActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="boutonSuiv">
           <Properties>
@@ -746,6 +749,9 @@
               <Dimension value="[70, 23]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="boutonFinActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

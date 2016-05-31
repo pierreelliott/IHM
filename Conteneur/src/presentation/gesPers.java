@@ -5,7 +5,11 @@
  */
 package presentation;
 import conteneurGenerique.*;
-import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import metier.*;
 
 /**
@@ -33,8 +37,16 @@ public class gesPers extends javax.swing.JFrame {
         total = 0;
         labelNbObjets.setText("0");
         
+        menuNouveau.addActionListener(new EcouteurMenu());
+        menuSauvegarder.addActionListener(new EcouteurMenu());
+        menuQuitter.addActionListener(new EcouteurMenu());
+        menuCharger.addActionListener(new EcouteurMenu());
+        menuFermerConteneur.addActionListener(new EcouteurMenu());
+        menuAPropos.addActionListener(new EcouteurMenu());
+        menuAide.addActionListener(new EcouteurMenu());
+        
         this.modeAffichage();
-        //this.afficher();
+        this.afficher();
     }
     
     private void modeAffichage()
@@ -67,20 +79,6 @@ public class gesPers extends javax.swing.JFrame {
         rBoutonEmp.setEnabled(false);
         rBoutonComm.setEnabled(false);
         rBoutonDir.setEnabled(false);
-        
-        labelNbObjets.setText("" + total);
-        
-        champNom.setText(cont.obtenir(cont.cleCourante()).getNomPers());
-        champMatricule.setText(cont.obtenir(cont.cleCourante()).getNumPers());
-        champTel.setText(cont.obtenir(cont.cleCourante()).getNumTel());
-        switch(cont.obtenir(cont.cleCourante()).getClass().toString()){
-            case "Employe": 
-                        break;
-            case "Commercial":
-                        break;
-            case "Directeur":
-                        break;
-        }
     }
     
     private void modeSaisie()
@@ -97,51 +95,33 @@ public class gesPers extends javax.swing.JFrame {
         boutonFin.setEnabled(false);
         
         boutonRecherche.setVisible(false);
+        boutonChercher.setEnabled(false);
         boutonSuppr.setText("Annuler");
         boutonCreer.setText("Ajouter");
+        boutonCreer.setToolTipText("Ajouter ce personnel");
 
         champNom.setEnabled(true);
         champTel.setEnabled(true);
         champMatricule.setEnabled(false);
         
-        switch(typePersonnel)
-        {
-            case EMPLOYE :
-                champTH.setEnabled(true);
-                champNbHeures.setEnabled(true);
-                champPourcentage.setEnabled(false);
-                champVentes.setEnabled(false);
-                champIndemnite.setEnabled(false);
-                break;
-                
-            case COMMERCIAL :
-                champTH.setEnabled(true);
-                champNbHeures.setEnabled(true);
-                champPourcentage.setEnabled(true);
-                champVentes.setEnabled(true);
-                champIndemnite.setEnabled(false);
-                break;
-                
-            case DIRECTEUR :
-                champIndemnite.setEnabled(true);
-                champTH.setEnabled(false);
-                champNbHeures.setEnabled(false);
-                champPourcentage.setEnabled(false);
-                champVentes.setEnabled(false);
-                break;
-        }
-
-        champMB.setEnabled(false);
-        
         rBoutonEmp.setEnabled(true);
+        rBoutonEmp.setSelected(true);
+        
+        typePersonnel = TypePersonnel.EMPLOYE;
+        
         rBoutonComm.setEnabled(true);
         rBoutonDir.setEnabled(true);
+        
+        champMB.setEnabled(false);
+        
     }
     
     private void modeRecherche()
     {
         modeCourant = ModeCourant.RECHERCHE;
         labelMode.setText("MODE RECHERCHE");
+        
+        this.effacer();
         
         boutonChercher.setEnabled(true);
         boutonSuppr.setEnabled(true);
@@ -155,8 +135,8 @@ public class gesPers extends javax.swing.JFrame {
         boutonRecherche.setEnabled(true);
         boutonSuppr.setText("Annuler");
 
-        champNom.setEnabled(true);
-        champTel.setEnabled(true);
+        champNom.setEnabled(false);
+        champTel.setEnabled(false);
         champMatricule.setEnabled(true);
         champTH.setEnabled(false);
         champNbHeures.setEnabled(false);
@@ -164,6 +144,147 @@ public class gesPers extends javax.swing.JFrame {
         champVentes.setEnabled(false);
         champPourcentage.setEnabled(false);
         champMB.setEnabled(false);
+        
+        if(!champMatricule.isFocusable())
+            champMatricule.setFocusable(true);
+        
+        champMatricule.requestFocus();
+    }
+    
+    private void effacer()
+    {
+        champNom.setText("");
+        champTel.setText("");
+        champMatricule.setText("");
+        champTH.setText("");
+        champNbHeures.setText("");
+        champIndemnite.setText("");
+        champVentes.setText("");
+        champPourcentage.setText("");
+        champMB.setText("");
+    }
+    
+    private void afficher()
+    {
+        this.effacer();
+        
+        labelNbObjets.setText(Integer.toString(total));
+        
+        if(!cont.estVide())
+        {
+            Personnel pers = cont.obtenir(cont.cleCourante());
+            
+            champNom.setText(pers.getNomPers());
+            champTel.setText(pers.getNumPers());
+            champMatricule.setText(pers.getNumTel());
+            
+            if(pers instanceof Employe)
+            {
+                champNbHeures.setText(Float.toString(((Employe)pers).getNbHeures()));
+                champTH.setText(Float.toString(((Employe)pers).getTauxHoraire()));
+            }
+            else if(pers instanceof Commercial)
+            {
+                champNbHeures.setText(Float.toString(((Commercial)pers).getNbHeures()));
+                champTH.setText(Float.toString(((Commercial)pers).getTauxHoraire()));
+                champPourcentage.setText(Float.toString(((Commercial)pers).getPourcentage()));
+                champVentes.setText(Float.toString(((Commercial)pers).getTotalVentes()));
+            }
+            else
+            {
+                champIndemnite.setText(Float.toString(((Directeur)pers).getIndemnites()));
+            }
+            
+            champMB.setText(Float.toString(pers.calculPaie()));
+        }
+    }
+    
+    private void saisir()
+    {
+        champIndemnite.setEnabled(false);
+        champPourcentage.setEnabled(false);
+        champVentes.setEnabled(false);
+        champTH.setEnabled(false);
+        champNbHeures.setEnabled(false);
+        
+        switch(typePersonnel)
+        {
+            case COMMERCIAL :
+                champPourcentage.setEnabled(true);
+                champVentes.setEnabled(true);
+            case EMPLOYE :
+                champTH.setEnabled(true);
+                champNbHeures.setEnabled(true);
+                break;
+            case DIRECTEUR :
+                champIndemnite.setEnabled(true);
+                break;
+        }
+    }
+    
+    private void rechercher()
+    {
+        if(cont.existe(champMatricule.getText()))
+        {
+            cont.positionner(champMatricule.getText());
+            this.afficher();
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(this, "Ce matricule n'existe pas !", "Matricule inexistant", 0);
+        }
+    }
+    
+    private void ajouter()
+    {
+        String nom = champNom.getText();
+        String tel = champTel.getText();
+        float th = Float.parseFloat(champTH.getText());
+        float nbh = Float.parseFloat(champNbHeures.getText());
+        float pourc = Float.parseFloat(champPourcentage.getText());
+        float ventes = Float.parseFloat(champVentes.getText());
+        float indemn = Float.parseFloat(champIndemnite.getText());
+        
+        switch(typePersonnel)
+        {
+            case EMPLOYE :
+                Employe emp = new Employe(nom, tel, th, nbh);
+                cont.ajouter(emp.getNumPers(), emp);
+                break; 
+            case COMMERCIAL :
+                Commercial com = new Commercial(nom, tel, th, nbh, pourc, ventes);
+                cont.ajouter(com.getNumPers(), com);
+                break;
+            case DIRECTEUR :
+                Directeur dir =  new Directeur(nom, tel, indemn);
+                cont.ajouter(dir.getNumPers(), dir);
+                break;
+        }   
+    }
+    
+    class EcouteurMenu implements ActionListener {
+        private int choix;
+        private JFileChooser d;
+        
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+            if(e.getSource() == menuNouveau)
+            {
+                cont.vider();
+                afficher();
+            }
+            else if(e.getSource() == menuCharger)
+            {
+                d = new JFileChooser(new File("."));
+                d.setDialogTitle("Charger ...");
+                // Continuer l'implémentation
+            }
+            else
+            {
+                // A faire : le reste :D
+            }
+        }
     }
 
     /**
@@ -222,7 +343,7 @@ public class gesPers extends javax.swing.JFrame {
         menuSauvegarder = new javax.swing.JMenuItem();
         menuFermerConteneur = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
-        menuFermer = new javax.swing.JMenuItem();
+        menuQuitter = new javax.swing.JMenuItem();
         menuAutre = new javax.swing.JMenu();
         menuAPropos = new javax.swing.JMenuItem();
         sepMenuAutre = new javax.swing.JPopupMenu.Separator();
@@ -236,13 +357,13 @@ public class gesPers extends javax.swing.JFrame {
         labelImgTeam.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelImgTeam.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/logo1_team.gif"))); // NOI18N
         labelImgTeam.setToolTipText("");
-        labelImgTeam.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        labelImgTeam.setBorder(javax.swing.BorderFactory.createBevelBorder(1));
 
         labelImgGerPer.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelImgGerPer.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelImgGerPer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/logo2_gesper.gif"))); // NOI18N
 
-        panelInfoGene.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Informations générales", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(10, 66, 255))); // NOI18N
+        panelInfoGene.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Informations générales", 0, 0, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(10, 66, 255))); // NOI18N
 
         champNom.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -313,7 +434,7 @@ public class gesPers extends javax.swing.JFrame {
                 .addContainerGap(25, Short.MAX_VALUE))
         );
 
-        panelTypeEmp.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Choix du type de l'employé", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(10, 66, 255))); // NOI18N
+        panelTypeEmp.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Choix du type de l'employé", 0, 0, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(10, 66, 255))); // NOI18N
 
         groupeBEmp.add(rBoutonEmp);
         rBoutonEmp.setSelected(true);
@@ -364,7 +485,7 @@ public class gesPers extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        panelInfoRemune.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Informations pour le calcul de la rémunération", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(10, 66, 255))); // NOI18N
+        panelInfoRemune.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Informations pour le calcul de la rémunération", 0, 0, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(10, 66, 255))); // NOI18N
 
         labelTH.setText("Taux horaire");
 
@@ -441,7 +562,7 @@ public class gesPers extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        panelGestionCont.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Gestion du conteneur", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(10, 66, 255))); // NOI18N
+        panelGestionCont.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Gestion du conteneur", 0, 0, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(10, 66, 255))); // NOI18N
 
         boutonChercher.setText("Chercher");
         boutonChercher.setMaximumSize(new java.awt.Dimension(90, 23));
@@ -514,7 +635,7 @@ public class gesPers extends javax.swing.JFrame {
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
-        panelNavCont.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Navigation dans le conteneur", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(10, 66, 255))); // NOI18N
+        panelNavCont.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Navigation dans le conteneur", 0, 0, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(10, 66, 255))); // NOI18N
 
         boutonDebut.setText("Début");
         boutonDebut.setMaximumSize(new java.awt.Dimension(70, 23));
@@ -530,6 +651,11 @@ public class gesPers extends javax.swing.JFrame {
         boutonPrec.setMaximumSize(new java.awt.Dimension(70, 23));
         boutonPrec.setMinimumSize(new java.awt.Dimension(70, 23));
         boutonPrec.setPreferredSize(new java.awt.Dimension(70, 23));
+        boutonPrec.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                boutonPrecActionPerformed(evt);
+            }
+        });
 
         boutonSuiv.setText(">>");
         boutonSuiv.setToolTipText("Employé suivant");
@@ -546,6 +672,11 @@ public class gesPers extends javax.swing.JFrame {
         boutonFin.setMaximumSize(new java.awt.Dimension(70, 23));
         boutonFin.setMinimumSize(new java.awt.Dimension(70, 23));
         boutonFin.setPreferredSize(new java.awt.Dimension(70, 23));
+        boutonFin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                boutonFinActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelNavContLayout = new javax.swing.GroupLayout(panelNavCont);
         panelNavCont.setLayout(panelNavContLayout);
@@ -612,13 +743,13 @@ public class gesPers extends javax.swing.JFrame {
         menuFichier.add(menuFermerConteneur);
         menuFichier.add(jSeparator2);
 
-        menuFermer.setText("Fermer");
-        menuFermer.addActionListener(new java.awt.event.ActionListener() {
+        menuQuitter.setText("Quitter");
+        menuQuitter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuFermerActionPerformed(evt);
+                menuQuitterActionPerformed(evt);
             }
         });
-        menuFichier.add(menuFermer);
+        menuFichier.add(menuQuitter);
 
         menu.add(menuFichier);
 
@@ -702,7 +833,7 @@ public class gesPers extends javax.swing.JFrame {
 
     private void rBoutonEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rBoutonEmpActionPerformed
         typePersonnel = TypePersonnel.EMPLOYE;
-        this.modeSaisie();
+        this.saisir();
     }//GEN-LAST:event_rBoutonEmpActionPerformed
 
     private void champMatriculeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_champMatriculeActionPerformed
@@ -711,7 +842,7 @@ public class gesPers extends javax.swing.JFrame {
 
     private void boutonSuivActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boutonSuivActionPerformed
         cont.suivant();
-        this.modeAffichage();
+        this.afficher();
     }//GEN-LAST:event_boutonSuivActionPerformed
 
     private void boutonChercherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boutonChercherActionPerformed
@@ -720,39 +851,22 @@ public class gesPers extends javax.swing.JFrame {
 
     private void boutonDebutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boutonDebutActionPerformed
         cont.premier();
-        modeAffichage();
+        this.afficher();
     }//GEN-LAST:event_boutonDebutActionPerformed
 
     private void boutonCreerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boutonCreerActionPerformed
         if(boutonCreer.getText().equals("Créer"))
+        {
+            this.effacer();
             this.modeSaisie();
+            this.saisir();
+        }
         else
         {
-            switch(typePersonnel)
-            {
-                case EMPLOYE :
-                    cont.ajouter(champMatricule.getText(), new Employe(champNom.getText(),
-                                                                       champTel.getText(),
-                                                                       Float.parseFloat(champTH.getText()),
-                                                                       Float.parseFloat(champNbHeures.getText())) );
-                    break; 
-                case COMMERCIAL :
-                    cont.ajouter(champMatricule.getText(), new Commercial(champNom.getText(),
-                                                                          champTel.getText(),
-                                                                          Float.parseFloat(champTH.getText()),
-                                                                          Float.parseFloat(champNbHeures.getText()),
-                                                                          Float.parseFloat(champPourcentage.getText()),
-                                                                          Float.parseFloat(champVentes.getText())) );
-                    break;
-                case DIRECTEUR :
-                    cont.ajouter(champMatricule.getText(), new Directeur(champNom.getText(),
-                                                                         champTel.getText(),
-                                                                         Float.parseFloat(champIndemnite.getText())) );
-                    break;
-            } 
-            
+            this.ajouter();
             ++total;
             this.modeAffichage();
+            this.afficher();
         }
     }//GEN-LAST:event_boutonCreerActionPerformed
 
@@ -773,9 +887,9 @@ public class gesPers extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_boutonSupprActionPerformed
 
-    private void menuFermerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuFermerActionPerformed
+    private void menuQuitterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuQuitterActionPerformed
         System.exit(0);
-    }//GEN-LAST:event_menuFermerActionPerformed
+    }//GEN-LAST:event_menuQuitterActionPerformed
 
     private void menuFermerConteneurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuFermerConteneurActionPerformed
         // TODO add your handling code here:
@@ -783,13 +897,23 @@ public class gesPers extends javax.swing.JFrame {
 
     private void rBoutonCommActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rBoutonCommActionPerformed
         typePersonnel = TypePersonnel.COMMERCIAL;
-        this.modeSaisie();
+        this.saisir();
     }//GEN-LAST:event_rBoutonCommActionPerformed
 
     private void rBoutonDirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rBoutonDirActionPerformed
         typePersonnel = TypePersonnel.DIRECTEUR;
-        this.modeSaisie();
+        this.saisir();
     }//GEN-LAST:event_rBoutonDirActionPerformed
+
+    private void boutonPrecActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boutonPrecActionPerformed
+        cont.precedent();
+        this.afficher();
+    }//GEN-LAST:event_boutonPrecActionPerformed
+
+    private void boutonFinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boutonFinActionPerformed
+        cont.dernier();
+        this.afficher();
+    }//GEN-LAST:event_boutonFinActionPerformed
 
     /**
      * @param args the command line arguments
@@ -865,10 +989,10 @@ public class gesPers extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuAide;
     private javax.swing.JMenu menuAutre;
     private javax.swing.JMenuItem menuCharger;
-    private javax.swing.JMenuItem menuFermer;
     private javax.swing.JMenuItem menuFermerConteneur;
     private javax.swing.JMenu menuFichier;
     private javax.swing.JMenuItem menuNouveau;
+    private javax.swing.JMenuItem menuQuitter;
     private javax.swing.JMenuItem menuSauvegarder;
     private javax.swing.JPanel panelGestionCont;
     private javax.swing.JPanel panelInfoGene;

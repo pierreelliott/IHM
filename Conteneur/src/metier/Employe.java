@@ -19,7 +19,7 @@ public class Employe extends Personnel{
         this.nbHeures = nbH;
     }
     
-    public float getTauxHoraires(){
+    public float getTauxHoraire(){
         return this.tauxHoraire;
     }
     
