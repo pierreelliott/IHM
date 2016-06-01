@@ -871,8 +871,7 @@ public class gesPers extends javax.swing.JFrame {
     }//GEN-LAST:event_boutonCreerActionPerformed
 
     private void boutonRechercheActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boutonRechercheActionPerformed
-        // Action à mettre
-        this.modeAffichage();
+        this.rechercher();
     }//GEN-LAST:event_boutonRechercheActionPerformed
 
     private void boutonSupprActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boutonSupprActionPerformed
