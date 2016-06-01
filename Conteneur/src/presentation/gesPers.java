@@ -9,7 +9,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.DEFAULT_OPTION;
+import static javax.swing.JOptionPane.YES_NO_OPTION;
+import static javax.swing.JOptionPane.YES_OPTION;
+import static javax.swing.JOptionPane.showConfirmDialog;
+import static javax.swing.JOptionPane.showMessageDialog;
 import metier.*;
 
 /**
@@ -26,6 +30,8 @@ public class gesPers extends javax.swing.JFrame {
     private enum ModeCourant {AFFICHAGE, SAISIE, RECHERCHE};
     private ModeCourant modeCourant;
     
+    private boolean modif = false;
+    
     /**
      * Creates new form gesPers
      */
@@ -36,7 +42,7 @@ public class gesPers extends javax.swing.JFrame {
         cont = new Conteneur<>();
         total = 0;
         labelNbObjets.setText("0");
-        
+        /*
         menuNouveau.addActionListener(new EcouteurMenu());
         menuSauvegarder.addActionListener(new EcouteurMenu());
         menuQuitter.addActionListener(new EcouteurMenu());
@@ -44,7 +50,7 @@ public class gesPers extends javax.swing.JFrame {
         menuFermerConteneur.addActionListener(new EcouteurMenu());
         menuAPropos.addActionListener(new EcouteurMenu());
         menuAide.addActionListener(new EcouteurMenu());
-        
+        */
         this.modeAffichage();
         this.afficher();
     }
@@ -114,6 +120,10 @@ public class gesPers extends javax.swing.JFrame {
         
         champMB.setEnabled(false);
         
+        if(!champNom.isFocusable())
+            champNom.setFocusable(true);
+        
+        champNom.requestFocus();
     }
     
     private void modeRecherche()
@@ -175,22 +185,22 @@ public class gesPers extends javax.swing.JFrame {
             Personnel pers = cont.obtenir(cont.cleCourante());
             
             champNom.setText(pers.getNomPers());
-            champTel.setText(pers.getNumPers());
-            champMatricule.setText(pers.getNumTel());
+            champTel.setText(pers.getNumTel());
+            champMatricule.setText(pers.getNumPers());
             
             if(pers instanceof Employe)
             {
                 champNbHeures.setText(Float.toString(((Employe)pers).getNbHeures()));
                 champTH.setText(Float.toString(((Employe)pers).getTauxHoraire()));
             }
-            else if(pers instanceof Commercial)
-            {
+            if(pers instanceof Commercial)
+            {/*
                 champNbHeures.setText(Float.toString(((Commercial)pers).getNbHeures()));
-                champTH.setText(Float.toString(((Commercial)pers).getTauxHoraire()));
+                champTH.setText(Float.toString(((Commercial)pers).getTauxHoraire()));*/
                 champPourcentage.setText(Float.toString(((Commercial)pers).getPourcentage()));
                 champVentes.setText(Float.toString(((Commercial)pers).getTotalVentes()));
             }
-            else
+            if(pers instanceof Directeur)
             {
                 champIndemnite.setText(Float.toString(((Directeur)pers).getIndemnites()));
             }
@@ -227,11 +237,12 @@ public class gesPers extends javax.swing.JFrame {
         if(cont.existe(champMatricule.getText()))
         {
             cont.positionner(champMatricule.getText());
+            this.modeAffichage();
             this.afficher();
         }
         else
         {
-            JOptionPane.showMessageDialog(this, "Ce matricule n'existe pas !", "Matricule inexistant", 0);
+            showMessageDialog(this, "Ce matricule n'existe pas !", "Matricule inexistant", DEFAULT_OPTION);
         }
     }
     
@@ -239,30 +250,40 @@ public class gesPers extends javax.swing.JFrame {
     {
         String nom = champNom.getText();
         String tel = champTel.getText();
-        float th = Float.parseFloat(champTH.getText());
-        float nbh = Float.parseFloat(champNbHeures.getText());
-        float pourc = Float.parseFloat(champPourcentage.getText());
-        float ventes = Float.parseFloat(champVentes.getText());
-        float indemn = Float.parseFloat(champIndemnite.getText());
+        float th;
+        float nbh;
+        float pourc;
+        float ventes;
+        float indemn;
         
         switch(typePersonnel)
         {
             case EMPLOYE :
+                th = Float.parseFloat(champTH.getText());
+                nbh = Float.parseFloat(champNbHeures.getText());
+                
                 Employe emp = new Employe(nom, tel, th, nbh);
                 cont.ajouter(emp.getNumPers(), emp);
                 break; 
             case COMMERCIAL :
+                th = Float.parseFloat(champTH.getText());
+                nbh = Float.parseFloat(champNbHeures.getText());
+                pourc = Float.parseFloat(champPourcentage.getText());
+                ventes = Float.parseFloat(champVentes.getText());
+                
                 Commercial com = new Commercial(nom, tel, th, nbh, pourc, ventes);
                 cont.ajouter(com.getNumPers(), com);
                 break;
             case DIRECTEUR :
+                indemn = Float.parseFloat(champIndemnite.getText());
+                
                 Directeur dir =  new Directeur(nom, tel, indemn);
                 cont.ajouter(dir.getNumPers(), dir);
                 break;
         }   
     }
     
-    class EcouteurMenu implements ActionListener {
+    /*class EcouteurMenu implements ActionListener {
         private int choix;
         private JFileChooser d;
         
@@ -280,12 +301,21 @@ public class gesPers extends javax.swing.JFrame {
                 d.setDialogTitle("Charger ...");
                 // Continuer l'implémentation
             }
+            else if(e.getSource() == menuSauvegarder)
+            {
+                d = new JFileChooser(new File("."));
+                d.setDialogTitle("Sauvegarder ...");
+            }
+            else if(e.getSource() == menuQuitter)
+            {
+                
+            }
             else
             {
                 // A faire : le reste :D
             }
         }
-    }
+    }*/
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -723,6 +753,11 @@ public class gesPers extends javax.swing.JFrame {
 
         menuCharger.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
         menuCharger.setText("Charger...");
+        menuCharger.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuChargerActionPerformed(evt);
+            }
+        });
         menuFichier.add(menuCharger);
 
         menuSauvegarder.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
@@ -828,7 +863,8 @@ public class gesPers extends javax.swing.JFrame {
     }//GEN-LAST:event_menuNouveauActionPerformed
 
     private void menuSauvegarderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSauvegarderActionPerformed
-        // TODO add your handling code here:
+        JFileChooser jfc = new JFileChooser(new File("."));
+        cont.sauvegarder(jfc.getName(jfc.getSelectedFile()));
     }//GEN-LAST:event_menuSauvegarderActionPerformed
 
     private void rBoutonEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rBoutonEmpActionPerformed
@@ -867,6 +903,7 @@ public class gesPers extends javax.swing.JFrame {
             ++total;
             this.modeAffichage();
             this.afficher();
+            modif = true;
         }
     }//GEN-LAST:event_boutonCreerActionPerformed
 
@@ -875,19 +912,30 @@ public class gesPers extends javax.swing.JFrame {
     }//GEN-LAST:event_boutonRechercheActionPerformed
 
     private void boutonSupprActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boutonSupprActionPerformed
-        if(modeCourant == ModeCourant.SAISIE || modeCourant == ModeCourant.RECHERCHE)
-            this.modeAffichage();
-        else
+        if(modeCourant == ModeCourant.AFFICHAGE)
         {
-            cont.supprimer(champMatricule.getText());
-            if(--total < 0)
-                total = 0;
-            labelNbObjets.setText("" + total);
+            if(showConfirmDialog(this, "Êtes-vous sûr(e) de vouloir supprimer ce personnel ?", "Supprimer ...", YES_NO_OPTION) == YES_OPTION)
+            {
+                cont.supprimer(champMatricule.getText());
+                if(--total < 0)
+                    total = 0;
+                labelNbObjets.setText("" + total); 
+                modif = true;
+            }
         }
+        
+        this.modeAffichage();
+        this.afficher();
     }//GEN-LAST:event_boutonSupprActionPerformed
 
     private void menuQuitterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuQuitterActionPerformed
-        System.exit(0);
+        if(modif)
+        {
+            if(showConfirmDialog(this, "Vous n'avez pas sauvegardé, êtes-vous sûr(e) de vouloir quitter ?", "Quitter ...", YES_NO_OPTION) == YES_OPTION)
+                System.exit(0);
+        }
+        else
+            System.exit(0);
     }//GEN-LAST:event_menuQuitterActionPerformed
 
     private void menuFermerConteneurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuFermerConteneurActionPerformed
@@ -913,6 +961,11 @@ public class gesPers extends javax.swing.JFrame {
         cont.dernier();
         this.afficher();
     }//GEN-LAST:event_boutonFinActionPerformed
+
+    private void menuChargerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuChargerActionPerformed
+        JFileChooser jfc = new JFileChooser(new File("."));
+        cont.charger(jfc.getName(jfc.getSelectedFile()));
+    }//GEN-LAST:event_menuChargerActionPerformed
 
     /**
      * @param args the command line arguments

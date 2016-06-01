@@ -117,7 +117,7 @@ public class Conteneur<K extends Comparable<K> & Serializable, V extends Seriali
     
     public void precedent()
     {
-        if (tM.higherKey(cleCourante) != null)
+        if (tM.lowerKey(cleCourante) != null)
             cleCourante = tM.lowerKey(cleCourante);
     }
     
