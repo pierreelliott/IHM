@@ -10,6 +10,8 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import javax.swing.JFileChooser;
 import static javax.swing.JOptionPane.DEFAULT_OPTION;
+import static javax.swing.JOptionPane.NO_OPTION;
+import static javax.swing.JOptionPane.YES_NO_CANCEL_OPTION;
 import static javax.swing.JOptionPane.YES_NO_OPTION;
 import static javax.swing.JOptionPane.YES_OPTION;
 import static javax.swing.JOptionPane.showConfirmDialog;
@@ -24,7 +26,6 @@ public class gesPers extends javax.swing.JFrame {
 
     private Conteneur<String, Personnel> cont;
     
-    private int total;
     private enum TypePersonnel {EMPLOYE, COMMERCIAL, DIRECTEUR};
     private TypePersonnel typePersonnel;
     private enum ModeCourant {AFFICHAGE, SAISIE, RECHERCHE};
@@ -40,7 +41,6 @@ public class gesPers extends javax.swing.JFrame {
         typePersonnel = TypePersonnel.EMPLOYE;
         
         cont = new Conteneur<>();
-        total = 0;
         labelNbObjets.setText("0");
         /*
         menuNouveau.addActionListener(new EcouteurMenu());
@@ -155,6 +155,7 @@ public class gesPers extends javax.swing.JFrame {
         champPourcentage.setEnabled(false);
         champMB.setEnabled(false);
         
+        champMatricule.setText("M");
         if(!champMatricule.isFocusable())
             champMatricule.setFocusable(true);
         
@@ -178,7 +179,7 @@ public class gesPers extends javax.swing.JFrame {
     {
         this.effacer();
         
-        labelNbObjets.setText(Integer.toString(total));
+        labelNbObjets.setText(Integer.toString(cont.nbElements()));
         
         if(!cont.estVide())
         {
@@ -864,6 +865,7 @@ public class gesPers extends javax.swing.JFrame {
 
     private void menuSauvegarderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSauvegarderActionPerformed
         JFileChooser jfc = new JFileChooser(new File("."));
+        jfc.showSaveDialog(this);
         cont.sauvegarder(jfc.getName(jfc.getSelectedFile()));
     }//GEN-LAST:event_menuSauvegarderActionPerformed
 
@@ -900,7 +902,6 @@ public class gesPers extends javax.swing.JFrame {
         else
         {
             this.ajouter();
-            ++total;
             this.modeAffichage();
             this.afficher();
             modif = true;
@@ -917,9 +918,6 @@ public class gesPers extends javax.swing.JFrame {
             if(showConfirmDialog(this, "Êtes-vous sûr(e) de vouloir supprimer ce personnel ?", "Supprimer ...", YES_NO_OPTION) == YES_OPTION)
             {
                 cont.supprimer(champMatricule.getText());
-                if(--total < 0)
-                    total = 0;
-                labelNbObjets.setText("" + total); 
                 modif = true;
             }
         }
@@ -931,8 +929,13 @@ public class gesPers extends javax.swing.JFrame {
     private void menuQuitterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuQuitterActionPerformed
         if(modif)
         {
-            if(showConfirmDialog(this, "Vous n'avez pas sauvegardé, êtes-vous sûr(e) de vouloir quitter ?", "Quitter ...", YES_NO_OPTION) == YES_OPTION)
-                System.exit(0);
+            switch(showConfirmDialog(this, "Voulez-vous sauvegarder votre travail ?", "Quitter ...", YES_NO_CANCEL_OPTION))
+            {
+                case YES_OPTION :
+                    this.menuSauvegarderActionPerformed(evt);
+                case NO_OPTION :
+                    System.exit(0); 
+            }
         }
         else
             System.exit(0);
@@ -964,7 +967,10 @@ public class gesPers extends javax.swing.JFrame {
 
     private void menuChargerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuChargerActionPerformed
         JFileChooser jfc = new JFileChooser(new File("."));
+        jfc.showOpenDialog(this);
         cont.charger(jfc.getName(jfc.getSelectedFile()));
+        this.modeAffichage();
+        this.afficher();
     }//GEN-LAST:event_menuChargerActionPerformed
 
     /**
