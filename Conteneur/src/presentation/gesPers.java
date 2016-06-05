@@ -5,8 +5,7 @@
  */
 package presentation;
 import conteneurGenerique.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
 import java.io.File;
 import javax.swing.JFileChooser;
 import static javax.swing.JOptionPane.DEFAULT_OPTION;
@@ -14,15 +13,15 @@ import static javax.swing.JOptionPane.NO_OPTION;
 import static javax.swing.JOptionPane.YES_NO_CANCEL_OPTION;
 import static javax.swing.JOptionPane.YES_NO_OPTION;
 import static javax.swing.JOptionPane.YES_OPTION;
+import metier.*;
 import static javax.swing.JOptionPane.showConfirmDialog;
 import static javax.swing.JOptionPane.showMessageDialog;
-import metier.*;
 
 /**
  *
  * @author p1402690
  */
-public class gesPers extends javax.swing.JFrame {
+public class GesPers extends javax.swing.JFrame {
 
     private Conteneur<String, Personnel> cont;
     
@@ -36,21 +35,29 @@ public class gesPers extends javax.swing.JFrame {
     /**
      * Creates new form gesPers
      */
-    public gesPers() {
+    public GesPers() {
         initComponents();
         typePersonnel = TypePersonnel.EMPLOYE;
         
         cont = new Conteneur<>();
         labelNbObjets.setText("0");
-        /*
-        menuNouveau.addActionListener(new EcouteurMenu());
-        menuSauvegarder.addActionListener(new EcouteurMenu());
-        menuQuitter.addActionListener(new EcouteurMenu());
-        menuCharger.addActionListener(new EcouteurMenu());
-        menuFermerConteneur.addActionListener(new EcouteurMenu());
-        menuAPropos.addActionListener(new EcouteurMenu());
-        menuAide.addActionListener(new EcouteurMenu());
-        */
+        
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                if(modif)
+                    switch(showConfirmDialog(GesPers.this, "Voulez-vous sauvegarder votre travail ?", "Quitter ...", YES_NO_CANCEL_OPTION))
+                    {
+                        case YES_OPTION :
+                            GesPers.this.sauvegarder();
+                        case NO_OPTION :
+                            System.exit(0); 
+                    }
+                else
+                    System.exit(0);
+            }
+        });
+        
         this.modeAffichage();
         this.afficher();
     }
@@ -284,39 +291,13 @@ public class gesPers extends javax.swing.JFrame {
         }   
     }
     
-    /*class EcouteurMenu implements ActionListener {
-        private int choix;
-        private JFileChooser d;
-        
-        @Override
-        public void actionPerformed(ActionEvent e)
-        {
-            if(e.getSource() == menuNouveau)
-            {
-                cont.vider();
-                afficher();
-            }
-            else if(e.getSource() == menuCharger)
-            {
-                d = new JFileChooser(new File("."));
-                d.setDialogTitle("Charger ...");
-                // Continuer l'implémentation
-            }
-            else if(e.getSource() == menuSauvegarder)
-            {
-                d = new JFileChooser(new File("."));
-                d.setDialogTitle("Sauvegarder ...");
-            }
-            else if(e.getSource() == menuQuitter)
-            {
-                
-            }
-            else
-            {
-                // A faire : le reste :D
-            }
-        }
-    }*/
+    private void sauvegarder()
+    {
+        JFileChooser jfc = new JFileChooser(new File("."));
+        jfc.showSaveDialog(this);
+        cont.sauvegarder(jfc.getName(jfc.getSelectedFile()));
+        modif = false;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -372,7 +353,6 @@ public class gesPers extends javax.swing.JFrame {
         menuNouveau = new javax.swing.JMenuItem();
         menuCharger = new javax.swing.JMenuItem();
         menuSauvegarder = new javax.swing.JMenuItem();
-        menuFermerConteneur = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         menuQuitter = new javax.swing.JMenuItem();
         menuAutre = new javax.swing.JMenu();
@@ -380,7 +360,7 @@ public class gesPers extends javax.swing.JFrame {
         sepMenuAutre = new javax.swing.JPopupMenu.Separator();
         menuAide = new javax.swing.JMenuItem();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setBackground(new java.awt.Color(237, 237, 214));
         setResizable(false);
 
@@ -388,13 +368,13 @@ public class gesPers extends javax.swing.JFrame {
         labelImgTeam.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelImgTeam.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/logo1_team.gif"))); // NOI18N
         labelImgTeam.setToolTipText("");
-        labelImgTeam.setBorder(javax.swing.BorderFactory.createBevelBorder(1));
+        labelImgTeam.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
 
         labelImgGerPer.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelImgGerPer.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelImgGerPer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/logo2_gesper.gif"))); // NOI18N
 
-        panelInfoGene.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Informations générales", 0, 0, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(10, 66, 255))); // NOI18N
+        panelInfoGene.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Informations générales", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(10, 66, 255))); // NOI18N
 
         champNom.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -465,7 +445,7 @@ public class gesPers extends javax.swing.JFrame {
                 .addContainerGap(25, Short.MAX_VALUE))
         );
 
-        panelTypeEmp.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Choix du type de l'employé", 0, 0, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(10, 66, 255))); // NOI18N
+        panelTypeEmp.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Choix du type de l'employé", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(10, 66, 255))); // NOI18N
 
         groupeBEmp.add(rBoutonEmp);
         rBoutonEmp.setSelected(true);
@@ -516,7 +496,7 @@ public class gesPers extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        panelInfoRemune.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Informations pour le calcul de la rémunération", 0, 0, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(10, 66, 255))); // NOI18N
+        panelInfoRemune.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Informations pour le calcul de la rémunération", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(10, 66, 255))); // NOI18N
 
         labelTH.setText("Taux horaire");
 
@@ -593,7 +573,7 @@ public class gesPers extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        panelGestionCont.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Gestion du conteneur", 0, 0, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(10, 66, 255))); // NOI18N
+        panelGestionCont.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Gestion du conteneur", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(10, 66, 255))); // NOI18N
 
         boutonChercher.setText("Chercher");
         boutonChercher.setMaximumSize(new java.awt.Dimension(90, 23));
@@ -666,7 +646,7 @@ public class gesPers extends javax.swing.JFrame {
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
-        panelNavCont.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Navigation dans le conteneur", 0, 0, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(10, 66, 255))); // NOI18N
+        panelNavCont.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Navigation dans le conteneur", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(10, 66, 255))); // NOI18N
 
         boutonDebut.setText("Début");
         boutonDebut.setMaximumSize(new java.awt.Dimension(70, 23));
@@ -769,14 +749,6 @@ public class gesPers extends javax.swing.JFrame {
             }
         });
         menuFichier.add(menuSauvegarder);
-
-        menuFermerConteneur.setText("Fermer le conteneur courant");
-        menuFermerConteneur.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuFermerConteneurActionPerformed(evt);
-            }
-        });
-        menuFichier.add(menuFermerConteneur);
         menuFichier.add(jSeparator2);
 
         menuQuitter.setText("Quitter");
@@ -860,13 +832,27 @@ public class gesPers extends javax.swing.JFrame {
     }//GEN-LAST:event_champNomActionPerformed
 
     private void menuNouveauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuNouveauActionPerformed
-        // TODO add your handling code here:
+        if(modif)
+        {
+            switch(showConfirmDialog(this, "Voulez-vous sauvegarder votre travail ?", "Nouveau ...", YES_NO_CANCEL_OPTION))
+            {
+                case YES_OPTION :
+                    this.sauvegarder();
+                case NO_OPTION :
+                    cont.vider();
+                    modif = false;
+            }
+        }
+        else
+            cont.vider();
+        
+        this.modeAffichage();
+        this.afficher();
+        labelNbObjets.setText("0");
     }//GEN-LAST:event_menuNouveauActionPerformed
 
     private void menuSauvegarderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSauvegarderActionPerformed
-        JFileChooser jfc = new JFileChooser(new File("."));
-        jfc.showSaveDialog(this);
-        cont.sauvegarder(jfc.getName(jfc.getSelectedFile()));
+        this.sauvegarder();
     }//GEN-LAST:event_menuSauvegarderActionPerformed
 
     private void rBoutonEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rBoutonEmpActionPerformed
@@ -928,22 +914,16 @@ public class gesPers extends javax.swing.JFrame {
 
     private void menuQuitterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuQuitterActionPerformed
         if(modif)
-        {
             switch(showConfirmDialog(this, "Voulez-vous sauvegarder votre travail ?", "Quitter ...", YES_NO_CANCEL_OPTION))
             {
                 case YES_OPTION :
-                    this.menuSauvegarderActionPerformed(evt);
+                    this.sauvegarder();
                 case NO_OPTION :
                     System.exit(0); 
             }
-        }
         else
             System.exit(0);
     }//GEN-LAST:event_menuQuitterActionPerformed
-
-    private void menuFermerConteneurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuFermerConteneurActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_menuFermerConteneurActionPerformed
 
     private void rBoutonCommActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rBoutonCommActionPerformed
         typePersonnel = TypePersonnel.COMMERCIAL;
@@ -990,20 +970,21 @@ public class gesPers extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(gesPers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GesPers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(gesPers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GesPers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(gesPers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GesPers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(gesPers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GesPers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new gesPers().setVisible(true);
+                new GesPers().setVisible(true);
             }
         });
     }
@@ -1047,7 +1028,6 @@ public class gesPers extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuAide;
     private javax.swing.JMenu menuAutre;
     private javax.swing.JMenuItem menuCharger;
-    private javax.swing.JMenuItem menuFermerConteneur;
     private javax.swing.JMenu menuFichier;
     private javax.swing.JMenuItem menuNouveau;
     private javax.swing.JMenuItem menuQuitter;
