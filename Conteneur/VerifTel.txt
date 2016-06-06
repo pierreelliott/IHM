@@ -1,0 +1,1 @@
+Pour vérifier numéro de tel, méthode : https://itx-technologies.com/blog/708-validation-dun-numero-de-telephone-en-javascript

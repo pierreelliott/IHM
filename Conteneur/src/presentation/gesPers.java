@@ -21,7 +21,7 @@ import static javax.swing.JOptionPane.showMessageDialog;
  *
  * @author p1402690
  */
-public class GesPers extends javax.swing.JFrame {
+public class gesPers extends javax.swing.JFrame {
 
     private Conteneur<String, Personnel> cont;
     
@@ -35,7 +35,7 @@ public class GesPers extends javax.swing.JFrame {
     /**
      * Creates new form gesPers
      */
-    public GesPers() {
+    public gesPers() {
         initComponents();
         typePersonnel = TypePersonnel.EMPLOYE;
         
@@ -46,10 +46,10 @@ public class GesPers extends javax.swing.JFrame {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
                 if(modif)
-                    switch(showConfirmDialog(GesPers.this, "Voulez-vous sauvegarder votre travail ?", "Quitter ...", YES_NO_CANCEL_OPTION))
+                    switch(showConfirmDialog(gesPers.this, "Voulez-vous sauvegarder votre travail ?", "Quitter ...", YES_NO_CANCEL_OPTION))
                     {
                         case YES_OPTION :
-                            GesPers.this.sauvegarder();
+                            gesPers.this.sauvegarder();
                         case NO_OPTION :
                             System.exit(0); 
                     }
@@ -200,6 +200,7 @@ public class GesPers extends javax.swing.JFrame {
             {
                 champNbHeures.setText(Float.toString(((Employe)pers).getNbHeures()));
                 champTH.setText(Float.toString(((Employe)pers).getTauxHoraire()));
+                rBoutonEmp.setSelected(true);
             }
             if(pers instanceof Commercial)
             {/*
@@ -207,10 +208,12 @@ public class GesPers extends javax.swing.JFrame {
                 champTH.setText(Float.toString(((Commercial)pers).getTauxHoraire()));*/
                 champPourcentage.setText(Float.toString(((Commercial)pers).getPourcentage()));
                 champVentes.setText(Float.toString(((Commercial)pers).getTotalVentes()));
+                rBoutonComm.setSelected(true);
             }
             if(pers instanceof Directeur)
             {
                 champIndemnite.setText(Float.toString(((Directeur)pers).getIndemnites()));
+                rBoutonDir.setSelected(true);
             }
             
             champMB.setText(Float.toString(pers.calculPaie()));
@@ -949,6 +952,7 @@ public class GesPers extends javax.swing.JFrame {
         JFileChooser jfc = new JFileChooser(new File("."));
         jfc.showOpenDialog(this);
         cont.charger(jfc.getName(jfc.getSelectedFile()));
+        Personnel.setNbPers(Integer.parseInt(cont.cleMax().replace("M", "")));
         this.modeAffichage();
         this.afficher();
     }//GEN-LAST:event_menuChargerActionPerformed
@@ -970,21 +974,27 @@ public class GesPers extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GesPers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(gesPers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GesPers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(gesPers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GesPers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(gesPers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GesPers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(gesPers.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new GesPers().setVisible(true);
+                new gesPers().setVisible(true);
             }
         });
     }

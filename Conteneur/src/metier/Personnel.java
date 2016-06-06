@@ -25,6 +25,8 @@ public abstract class Personnel implements Serializable{
         this.numPers = ("M" + nbPers);
     }
     
+    public static void setNbPers(int n){ nbPers = n ; }
+    
     public abstract float calculPaie();
     
     public String getNumPers(){
