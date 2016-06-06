@@ -5,7 +5,11 @@
  */
 package vue;
 
+import java.applet.AudioClip;
 import javax.swing.*;
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
+import static javax.swing.JOptionPane.showMessageDialog;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -13,11 +17,22 @@ import javax.swing.*;
  */
 public class GestionProduit extends javax.swing.JFrame {
 
+    private DefaultTableModel modele;
+    private AudioClip son1, son2;
+    
     /**
      * Creates new form GestionProduit
      */
     public GestionProduit() {
         initComponents();
+        
+        modele = (DefaultTableModel) tabProduits.getModel();
+        /*
+        java.net.URL url1 = GestionProduit.class.getResource("/sons/son1.wav");
+        java.net.URL url2 = GestionProduit.class.getResource("/sons/son2.wav");
+        
+        son1 = java.applet.Applet.newAudioClip(url1);
+        son2 = java.applet.Applet.newAudioClip(url2);*/
     }
 
     /**
@@ -42,6 +57,8 @@ public class GestionProduit extends javax.swing.JFrame {
         jScrollPane = new javax.swing.JScrollPane();
         tabProduits = new javax.swing.JTable();
         jlMessagedErreur = new javax.swing.JLabel();
+        jbTestSon1 = new javax.swing.JButton();
+        jbTestSon2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setName("Gestion Produit"); // NOI18N
@@ -74,8 +91,18 @@ public class GestionProduit extends javax.swing.JFrame {
         });
 
         jbSupprimer.setText("Supprimer");
+        jbSupprimer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbSupprimerActionPerformed(evt);
+            }
+        });
 
         jbModifier.setText("Modifier");
+        jbModifier.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbModifierActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout caracteristiquesPanelLayout = new javax.swing.GroupLayout(caracteristiquesPanel);
         caracteristiquesPanel.setLayout(caracteristiquesPanelLayout);
@@ -149,11 +176,30 @@ public class GestionProduit extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tabProduits.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabProduitsMouseClicked(evt);
+            }
+        });
         jScrollPane.setViewportView(tabProduits);
 
         jlMessagedErreur.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jlMessagedErreur.setForeground(new java.awt.Color(255, 0, 0));
         jlMessagedErreur.setText("(Message d'erreur)");
+
+        jbTestSon1.setText("test son 1");
+        jbTestSon1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbTestSon1ActionPerformed(evt);
+            }
+        });
+
+        jbTestSon2.setText("test son 2");
+        jbTestSon2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbTestSon2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -169,6 +215,12 @@ public class GestionProduit extends javax.swing.JFrame {
                         .addComponent(jlMessagedErreur, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(71, 71, 71)
+                .addComponent(jbTestSon1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jbTestSon2)
+                .addGap(87, 87, 87))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -179,7 +231,11 @@ public class GestionProduit extends javax.swing.JFrame {
                 .addComponent(jlMessagedErreur)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbTestSon1)
+                    .addComponent(jbTestSon2))
+                .addContainerGap())
         );
 
         pack();
@@ -190,8 +246,56 @@ public class GestionProduit extends javax.swing.JFrame {
     }//GEN-LAST:event_jcbComboBoxActionPerformed
 
     private void jbAjouterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAjouterActionPerformed
-        DefaultTableModel modele = (DefaultTableModel) tabProduits.getModel();
+        if(jtfLibelle.getText().equals(""))
+            jlMessagedErreur.setText("Libellé manquant");
+        else
+        {
+            try
+            {
+                modele.addRow(new Object[] {jtfLibelle.getText().trim(), jcbComboBox.getSelectedItem().toString(), Double.parseDouble(jtfPrixUnitaire.getText())}) ;
+            }
+            catch(NumberFormatException e)
+            {
+                showMessageDialog(this, e, "Erreur", ERROR_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_jbAjouterActionPerformed
+
+    private void jbModifierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbModifierActionPerformed
+        if(tabProduits.getRowCount() == 0)
+            jlMessagedErreur.setText("La table est vide");
+        else
+        {
+        try
+            {
+                modele.setValueAt(jtfLibelle.getText(), tabProduits.getSelectedRow(), 0);
+                modele.setValueAt(jcbComboBox.getSelectedItem().toString(), tabProduits.getSelectedRow(), 1);
+                modele.setValueAt(Double.parseDouble(jtfPrixUnitaire.getText()), tabProduits.getSelectedRow(), 2);
+            }
+            catch(ArrayIndexOutOfBoundsException e)
+            {
+                jlMessagedErreur.setText("Aucune ligne sélectionnée");
+            }
+        }
+    }//GEN-LAST:event_jbModifierActionPerformed
+
+    private void tabProduitsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabProduitsMouseClicked
+        jtfLibelle.setText(modele.getValueAt(tabProduits.getSelectedRow(), 0).toString());
+        jcbComboBox.setSelectedItem(modele.getValueAt(tabProduits.getSelectedRow(), 1).toString());
+        jtfPrixUnitaire.setText(modele.getValueAt(tabProduits.getSelectedRow(), 2).toString());
+    }//GEN-LAST:event_tabProduitsMouseClicked
+
+    private void jbSupprimerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSupprimerActionPerformed
+        modele.removeRow(tabProduits.getSelectedRow());
+    }//GEN-LAST:event_jbSupprimerActionPerformed
+
+    private void jbTestSon1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbTestSon1ActionPerformed
+        son1.play();
+    }//GEN-LAST:event_jbTestSon1ActionPerformed
+
+    private void jbTestSon2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbTestSon2ActionPerformed
+        son2.play();
+    }//GEN-LAST:event_jbTestSon2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -234,6 +338,8 @@ public class GestionProduit extends javax.swing.JFrame {
     private javax.swing.JButton jbAjouter;
     private javax.swing.JButton jbModifier;
     private javax.swing.JButton jbSupprimer;
+    private javax.swing.JButton jbTestSon1;
+    private javax.swing.JButton jbTestSon2;
     private javax.swing.JComboBox jcbComboBox;
     private javax.swing.JLabel jlCategorie;
     private javax.swing.JLabel jlLibelle;

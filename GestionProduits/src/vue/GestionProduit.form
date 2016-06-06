@@ -38,6 +38,13 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="71" max="-2" attributes="0"/>
+              <Component id="jbTestSon1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
+              <Component id="jbTestSon2" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="87" max="-2" attributes="0"/>
+          </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -49,7 +56,12 @@
               <Component id="jlMessagedErreur" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jScrollPane" min="-2" pref="152" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace pref="14" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jbTestSon1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jbTestSon2" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -186,11 +198,17 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Supprimer"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbSupprimerActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jbModifier">
           <Properties>
             <Property name="text" type="java.lang.String" value="Modifier"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbModifierActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -211,6 +229,9 @@
               </Table>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tabProduitsMouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -224,6 +245,22 @@
         </Property>
         <Property name="text" type="java.lang.String" value="(Message d&apos;erreur)"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="jbTestSon1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="test son 1"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbTestSon1ActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="jbTestSon2">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="test son 2"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbTestSon2ActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
