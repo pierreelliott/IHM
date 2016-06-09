@@ -7,7 +7,9 @@ package vue;
 
 import java.applet.AudioClip;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import javax.swing.*;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
@@ -62,16 +64,16 @@ public class GestionProduit extends javax.swing.JFrame {
         jlMessagedErreur = new javax.swing.JLabel();
         jbTestSon1 = new javax.swing.JButton();
         jbTestSon2 = new javax.swing.JButton();
-        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenuBar = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        jmiCharger = new javax.swing.JMenuItem();
+        jmiSauvegarder = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setName("Gestion Produit"); // NOI18N
         setResizable(false);
 
-        caracteristiquesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Caractéristiques du produit", 0, 0, new java.awt.Font("Tahoma", 2, 11))); // NOI18N
+        caracteristiquesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Caractéristiques du produit", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 2, 11))); // NOI18N
 
         jlLibelle.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jlLibelle.setText("Libellé");
@@ -210,20 +212,25 @@ public class GestionProduit extends javax.swing.JFrame {
 
         jMenu1.setText("Fichier");
 
-        jMenuItem1.setText("Charger");
-        jMenu1.add(jMenuItem1);
-
-        jMenuItem2.setText("Sauvegarder");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        jmiCharger.setText("Charger");
+        jmiCharger.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                jmiChargerActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem2);
+        jMenu1.add(jmiCharger);
 
-        jMenuBar1.add(jMenu1);
+        jmiSauvegarder.setText("Sauvegarder");
+        jmiSauvegarder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiSauvegarderActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jmiSauvegarder);
 
-        setJMenuBar(jMenuBar1);
+        jMenuBar.add(jMenu1);
+
+        setJMenuBar(jMenuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -280,6 +287,7 @@ public class GestionProduit extends javax.swing.JFrame {
             }
             catch(NumberFormatException e)
             {
+                jlMessagedErreur.setText("Le format du prix est invalide");
                 showMessageDialog(this, e, "Erreur", ERROR_MESSAGE);
             }
         }
@@ -290,7 +298,7 @@ public class GestionProduit extends javax.swing.JFrame {
             jlMessagedErreur.setText("La table est vide");
         else
         {
-        try
+            try
             {
                 modele.setValueAt(jtfLibelle.getText(), tabProduits.getSelectedRow(), 0);
                 modele.setValueAt(jcbComboBox.getSelectedItem().toString(), tabProduits.getSelectedRow(), 1);
@@ -321,21 +329,60 @@ public class GestionProduit extends javax.swing.JFrame {
         son2.play();
     }//GEN-LAST:event_jbTestSon2ActionPerformed
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+    private void jmiSauvegarderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiSauvegarderActionPerformed
         JFileChooser jfc = new JFileChooser(new File("."));
         jfc.showSaveDialog(this);
-        try{
-            File f1 = new File(nomFic);
+        
+        // On passe par un tableau 2D de String pour sauvegarder les données de la JTable
+        String[][] tab = new String[tabProduits.getRowCount()][3];
+        
+        for(int i = 0; i < tabProduits.getRowCount(); i++)
+            for(int j = 0; j < 3; j++)
+                tab[i][j] = modele.getValueAt(i, j).toString();
+        
+        try
+        {
+            File f1 = new File(jfc.getName(jfc.getSelectedFile()));
             FileOutputStream fs = new FileOutputStream(f1);
             ObjectOutputStream fsObj = new ObjectOutputStream(fs);
-            fsObj.writeObject(tM);
-            fsObj.close();
-            
-        } catch(Exception e){
+            fsObj.writeObject(tab);
+            fsObj.close(); 
+        }
+        catch(Exception e)
+        {
             System.out.println(e.getMessage());
         }
-        cont.sauvegarder(jfc.getName(jfc.getSelectedFile()));
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    }//GEN-LAST:event_jmiSauvegarderActionPerformed
+
+    private void jmiChargerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiChargerActionPerformed
+        JFileChooser jfc = new JFileChooser(new File("."));
+        jfc.showOpenDialog(this);
+        
+        try
+        {
+            // On récupère les données du fichier dans un tableau 2D de String
+            File f1 = new File(jfc.getSelectedFile().getName());
+            FileInputStream fs = new FileInputStream(f1);
+            ObjectInputStream feObj = new ObjectInputStream(fs);
+            String[][] tab = (String[][]) feObj.readObject();
+            feObj.close();
+            
+            // On remet les données dans la JTable
+            modele.setRowCount(tab.length);
+            
+            for(int i = 0; i < tab.length; i++)
+            {
+                for(int j = 0; j < 2; j++)
+                    modele.setValueAt(tab[i][j], i, j);
+                
+                modele.setValueAt(Double.parseDouble(tab[i][2]), i, 2);
+            }
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+    }//GEN-LAST:event_jmiChargerActionPerformed
 
     /**
      * @param args the command line arguments
@@ -375,9 +422,7 @@ public class GestionProduit extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel caracteristiquesPanel;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JScrollPane jScrollPane;
     private javax.swing.JButton jbAjouter;
     private javax.swing.JButton jbModifier;
@@ -389,6 +434,8 @@ public class GestionProduit extends javax.swing.JFrame {
     private javax.swing.JLabel jlLibelle;
     private javax.swing.JLabel jlMessagedErreur;
     private javax.swing.JLabel jlPrixUnitaire;
+    private javax.swing.JMenuItem jmiCharger;
+    private javax.swing.JMenuItem jmiSauvegarder;
     private javax.swing.JTextField jtfLibelle;
     private javax.swing.JTextField jtfPrixUnitaire;
     private javax.swing.JTable tabProduits;
