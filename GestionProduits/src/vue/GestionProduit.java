@@ -6,15 +6,14 @@
 package vue;
 
 import java.applet.AudioClip;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.awt.Desktop;
+import java.io.*;
+import java.util.Vector;
 import javax.swing.*;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 /**
  *
@@ -38,7 +37,67 @@ public class GestionProduit extends javax.swing.JFrame {
         
         son1 = java.applet.Applet.newAudioClip(url1);
         son2 = java.applet.Applet.newAudioClip(url2);
+        
+        jlMessagedErreur.setText("");
     }
+    
+    private void exporter(JTable table, File file)
+{
+	try
+	{
+            TableModel model = table.getModel();
+            FileWriter fileOut = new FileWriter(file);
+            for(int i=0; i < model.getColumnCount(); i++){
+		fileOut.write(model.getColumnName(i) + "\t");
+            }
+            fileOut.write("\n");
+ 
+            for(int i=0; i< model.getRowCount(); i++) {
+		for(int j=0; j < model.getColumnCount(); j++) {
+			fileOut.write(model.getValueAt(i,j).toString()+"\t");
+			}
+                    fileOut.write("\n");
+		}
+            fileOut.close();
+            Desktop.getDesktop().open(file);
+	} catch(Exception err)
+	{
+            err.printStackTrace();
+	}
+    }
+    
+    /*private void importer(File file)
+{
+	try
+	{
+            TableModel model = table.getModel();
+            FileWriter fileIn = new FileWriter(file);
+            for(int i=0; i < model.getColumnCount(); i++){
+		fileIn.write(model.getColumnName(i) + "\t");
+            }
+            fileIn.write("\n");
+ 
+            for(int i=0; i< model.getRowCount(); i++) {
+		for(int j=0; j < model.getColumnCount(); j++) {
+			fileIn.write(model.getValueAt(i,j).toString()+"\t");
+			}
+                    fileIn.write("\n");
+		}
+            fileIn.close();
+            Desktop.getDesktop().open(file);
+	} catch(Exception err)
+	{
+            err.printStackTrace();
+	}
+    }*/
+    
+    public void vider(){
+        jlMessagedErreur.setText("");
+        jtfLibelle.setText("");
+        jtfPrixUnitaire.setText("");
+        jcbComboBox.setSelectedIndex(0);
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -68,12 +127,13 @@ public class GestionProduit extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jmiCharger = new javax.swing.JMenuItem();
         jmiSauvegarder = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setName("Gestion Produit"); // NOI18N
         setResizable(false);
 
-        caracteristiquesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Caractéristiques du produit", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 2, 11))); // NOI18N
+        caracteristiquesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Caractéristiques du produit", 0, 0, new java.awt.Font("Tahoma", 2, 11))); // NOI18N
 
         jlLibelle.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jlLibelle.setText("Libellé");
@@ -212,6 +272,7 @@ public class GestionProduit extends javax.swing.JFrame {
 
         jMenu1.setText("Fichier");
 
+        jmiCharger.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
         jmiCharger.setText("Charger");
         jmiCharger.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -220,6 +281,7 @@ public class GestionProduit extends javax.swing.JFrame {
         });
         jMenu1.add(jmiCharger);
 
+        jmiSauvegarder.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         jmiSauvegarder.setText("Sauvegarder");
         jmiSauvegarder.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -227,6 +289,15 @@ public class GestionProduit extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jmiSauvegarder);
+
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem1.setText("Exporter");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
 
         jMenuBar.add(jMenu1);
 
@@ -284,6 +355,7 @@ public class GestionProduit extends javax.swing.JFrame {
             try
             {
                 modele.addRow(new Object[] {jtfLibelle.getText().trim(), jcbComboBox.getSelectedItem().toString(), Double.parseDouble(jtfPrixUnitaire.getText())}) ;
+                vider();
             }
             catch(NumberFormatException e)
             {
@@ -352,6 +424,8 @@ public class GestionProduit extends javax.swing.JFrame {
         {
             System.out.println(e.getMessage());
         }
+        
+        
     }//GEN-LAST:event_jmiSauvegarderActionPerformed
 
     private void jmiChargerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiChargerActionPerformed
@@ -383,6 +457,10 @@ public class GestionProduit extends javax.swing.JFrame {
             System.out.println(e.getMessage());
         }
     }//GEN-LAST:event_jmiChargerActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        exporter(tabProduits,new File("GestionProduit.xls"));
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -423,6 +501,7 @@ public class GestionProduit extends javax.swing.JFrame {
     private javax.swing.JPanel caracteristiquesPanel;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JScrollPane jScrollPane;
     private javax.swing.JButton jbAjouter;
     private javax.swing.JButton jbModifier;
