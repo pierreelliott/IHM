@@ -12,6 +12,11 @@ package metier;
 public class Directeur extends Personnel{
     private final float indemnites;
     
+    public Directeur(String mat, String nom, String tel, float indemn){
+        super(mat, nom,tel);
+        this.indemnites = indemn;
+    }
+    
     public Directeur(String nom, String tel, float indemn){
         super(nom,tel);
         this.indemnites = indemn;

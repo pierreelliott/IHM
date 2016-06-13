@@ -13,6 +13,12 @@ public class Commercial extends Employe{
     private final float pourcentage;
     private float totalVentes = 0;
     
+    public Commercial(String mat, String nom, String tel, float txHoraire, float nbH, float pourcent, float totVentes){
+        super(mat, nom,tel,txHoraire,nbH);
+        this.pourcentage = pourcent;
+        this.totalVentes = totVentes;
+    }
+    
     public Commercial(String nom, String tel, float txHoraire, float nbH, float pourcent, float totVentes){
         super(nom,tel,txHoraire,nbH);
         this.pourcentage = pourcent;

@@ -18,6 +18,13 @@ public abstract class Personnel implements Serializable{
     
     private static int nbPers = 1000;
     
+    public Personnel(String mat, String nom, String tel){
+        this.nomPers = nom;
+        this.numTel = tel;
+        this.numPers = mat;
+        nbPers = Integer.parseInt(mat.replace("M", ""));
+    }
+    
     public Personnel(String nom, String tel){
         nbPers++;
         this.nomPers = nom;

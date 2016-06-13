@@ -13,6 +13,13 @@ public class Employe extends Personnel{
     private final float tauxHoraire;
     private final float nbHeures;
     
+    public Employe(String mat, String nom, String tel, float txHoraire, float nbH)
+    {
+        super(mat, nom, tel);
+        this.tauxHoraire = txHoraire;
+        this.nbHeures = nbH;
+    }
+    
     public Employe(String nom, String tel, float txHoraire, float nbH){
         super(nom,tel);
         this.tauxHoraire = txHoraire;
