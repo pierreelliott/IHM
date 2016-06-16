@@ -5,10 +5,8 @@
  */
 package connexionBD;
 
-import conteneurGenerique.*;
 import java.io.*;
 import java.sql.*;
-import java.sql.Types.*;
 import java.util.*;
 import java.util.logging.*;
 import metier.*;
@@ -28,11 +26,21 @@ public class AccesBDOracle {
     private Statement instStat;
     private ResultSet result;
 
-    private AccesBDOracle() {}
+    private AccesBDOracle() throws SQLException {
+        instCo = creerConnexion();
+    }
     
     public static AccesBDOracle getInstance(){
         if(instance == null)
-            instance = new AccesBDOracle();
+        {
+            try {
+                instance = new AccesBDOracle();
+            }
+            catch(SQLException ex) {
+                Logger.getLogger(OracleConnection.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
         return instance;
     }
     
@@ -44,7 +52,6 @@ public class AccesBDOracle {
     
     public void charger(TreeMap<String, Personnel> tm) throws SQLException
     {
-        instCo = instance.CreerConnexion();
         String query = "SELECT matricule, nom, numtel, categorie, tauxHoraire, NbHeures, indemnites, pourcentage, totalVentes FROM personnel order by matricule";
         Personnel elt = null;
         instStat = instCo.createStatement();
@@ -70,7 +77,6 @@ public class AccesBDOracle {
     
     public void supprimer(Personnel p) throws SQLException
     {
-        instCo = instance.CreerConnexion();
         PreparedStatement suppr = instCo.prepareStatement("Delete from personnel where matricule = ?");
         suppr.setString(1, p.getNumPers());
         suppr.executeUpdate();
@@ -79,7 +85,6 @@ public class AccesBDOracle {
     
     public void inserer(Personnel p) throws SQLException
     {
-        instCo = instance.CreerConnexion();
         PreparedStatement inser = instCo.prepareStatement("Insert into personnel values (?, ?, ?, ?, ?, ?, ?, ?, ?)");
         inser.setString(1, p.getNumPers());
         inser.setString(2, p.getNomPers());
@@ -114,15 +119,15 @@ public class AccesBDOracle {
         instance.fermer();
     }
     
-    public Connection CreerConnexion() throws SQLException { 
+    public Connection creerConnexion() throws SQLException { 
         Properties props = new Properties(); 
         FileInputStream fichier = null;
         try{
-            fichier = new FileInputStream("W:\\Mes documents\\IHM\\Conteneur\\src\\connexionBD\\connexion.properties"); 
+            fichier = new FileInputStream("src/connexionBD/connexion.properties"); 
             props.load(fichier);
         }
         catch (FileNotFoundException e) {
-            System.out.println("**** Fichier décrivant les propriétés d'accès à la BD non trouvé !"+e.getMessage());
+            System.out.println("**** Fichier décrivant les propriétés d'accès à la BD non trouvé ! " + e.getMessage());
         }
         catch (IOException ex) {
             Logger.getLogger(OracleConnection.class.getName()).log(Level.SEVERE, null, ex);
@@ -135,23 +140,25 @@ public class AccesBDOracle {
                 Logger.getLogger(OracleConnection.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        try {
         OracleDataSource ods = new OracleDataSource(); 
-        ods.setDriverType(props.getProperty("pilote")); 
-        ods.setPortNumber(new Integer(props.getProperty("port")).intValue()); 
-        ods.setServiceName(props.getProperty("service")); 
-        ods.setUser(props.getProperty("user")); 
-        ods.setPassword(props.getProperty("pwd")); 
-        ods.setServerName(props.getProperty("serveur"));
-        
-        System.out.println("==> Connexion ORACLE établie...");
-        
-        return(ods.getConnection());
+        try {
+            
+            ods.setDriverType(props.getProperty("pilote")); 
+            ods.setPortNumber(Integer.parseInt((props.getProperty("port")))); 
+            ods.setServiceName(props.getProperty("service")); 
+            ods.setUser(props.getProperty("user")); 
+            ods.setPassword(props.getProperty("pwd")); 
+            ods.setServerName(props.getProperty("serveur"));
+
+            System.out.println("==> Connexion ORACLE établie...");
+
+            return(ods.getConnection());
         }
-        catch (Exception e) {
+        catch (Exception ex) {
             System.err.println("Erreur de connexion au serveur ORACLE...");
+            Logger.getLogger(OracleConnection.class.getName()).log(Level.SEVERE, null, ex);
             return null;
-       }
+        }
    }
 
 }

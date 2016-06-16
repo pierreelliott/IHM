@@ -24,7 +24,6 @@ import metier.*;
 public class gesPers extends javax.swing.JFrame {
 
     private Conteneur<String, Personnel> cont;
-    private AccesBDOracle bd;
     
     private enum TypePersonnel {EMPLOYE, COMMERCIAL, DIRECTEUR};
     private TypePersonnel typePersonnel;
@@ -40,11 +39,9 @@ public class gesPers extends javax.swing.JFrame {
         initComponents();
         typePersonnel = TypePersonnel.EMPLOYE;
         
-        bd = AccesBDOracle.getInstance();
-        
         TreeMap<String, Personnel> tmap = new TreeMap<>();
         try {
-            bd.charger(tmap);
+            AccesBDOracle.getInstance().charger(tmap);
         } catch (SQLException ex) {
             showMessageDialog(this,"Problème de chargement de la base de données","Erreur",ERROR_MESSAGE);
             Logger.getLogger(gesPers.class.getName()).log(Level.SEVERE, null, ex);
@@ -307,7 +304,7 @@ public class gesPers extends javax.swing.JFrame {
                 break;
         }
         try {
-            bd.inserer(p);
+            AccesBDOracle.getInstance().inserer(p);
         } catch (SQLException ex) {
             showMessageDialog(this,"Problème lors de l'insertion dans la base de données","Erreur",ERROR_MESSAGE);
             Logger.getLogger(gesPers.class.getName()).log(Level.SEVERE, null, ex);
@@ -927,7 +924,7 @@ public class gesPers extends javax.swing.JFrame {
             if(showConfirmDialog(this, "Êtes-vous sûr(e) de vouloir supprimer ce personnel ?", "Supprimer ...", YES_NO_OPTION) == YES_OPTION)
             {
                 try {
-                    bd.supprimer(cont.obtenir(champMatricule.getText()));
+                    AccesBDOracle.getInstance().supprimer(cont.obtenir(champMatricule.getText()));
                 } catch (SQLException ex) {
                     showMessageDialog(this,"Problème de suppression de la base de données","Erreur",ERROR_MESSAGE);
                     Logger.getLogger(gesPers.class.getName()).log(Level.SEVERE, null, ex);
