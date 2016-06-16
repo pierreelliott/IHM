@@ -140,9 +140,9 @@ public class AccesBDOracle {
                 Logger.getLogger(OracleConnection.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        OracleDataSource ods = new OracleDataSource(); 
+        
         try {
-            
+            OracleDataSource ods = new OracleDataSource(); 
             ods.setDriverType(props.getProperty("pilote")); 
             ods.setPortNumber(Integer.parseInt((props.getProperty("port")))); 
             ods.setServiceName(props.getProperty("service")); 
