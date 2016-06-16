@@ -98,6 +98,10 @@ public class Conteneur<K extends Comparable<K> & Serializable, V extends Seriali
         return tM.containsKey(cle);
     }
     
+    /*public TreeMap<K, V> getTreeMap(){
+        return tM;
+    }*/
+    
     public int nbElements()
     {
         return tM.size();

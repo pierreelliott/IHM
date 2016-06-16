@@ -4,18 +4,18 @@
  * and open the template in the editor.
  */
 package presentation;
+import connexionBD.*;
 import conteneurGenerique.*;
 import java.awt.event.WindowAdapter;
 import java.io.File;
+import java.sql.SQLException;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
-import static javax.swing.JOptionPane.DEFAULT_OPTION;
-import static javax.swing.JOptionPane.NO_OPTION;
-import static javax.swing.JOptionPane.YES_NO_CANCEL_OPTION;
-import static javax.swing.JOptionPane.YES_NO_OPTION;
-import static javax.swing.JOptionPane.YES_OPTION;
+import static javax.swing.JOptionPane.*;
 import metier.*;
-import static javax.swing.JOptionPane.showConfirmDialog;
-import static javax.swing.JOptionPane.showMessageDialog;
+
 
 /**
  *
@@ -24,6 +24,7 @@ import static javax.swing.JOptionPane.showMessageDialog;
 public class gesPers extends javax.swing.JFrame {
 
     private Conteneur<String, Personnel> cont;
+    private AccesBDOracle bd;
     
     private enum TypePersonnel {EMPLOYE, COMMERCIAL, DIRECTEUR};
     private TypePersonnel typePersonnel;
@@ -39,7 +40,19 @@ public class gesPers extends javax.swing.JFrame {
         initComponents();
         typePersonnel = TypePersonnel.EMPLOYE;
         
-        cont = new Conteneur<>();
+        bd = AccesBDOracle.getInstance();
+        
+        TreeMap<String, Personnel> tmap = new TreeMap<>();
+        try {
+            bd.charger(tmap);
+        } catch (SQLException ex) {
+            showMessageDialog(this,"Problème de chargement de la base de données","Erreur",ERROR_MESSAGE);
+            Logger.getLogger(gesPers.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        cont = new Conteneur<>(tmap);
+        cont.dernier();
+        
         labelNbObjets.setText("0");
         
         this.addWindowListener(new WindowAdapter() {
@@ -259,6 +272,7 @@ public class gesPers extends javax.swing.JFrame {
     
     private void ajouter()
     {
+        Personnel p = null;
         String nom = champNom.getText();
         String tel = champTel.getText();
         float th;
@@ -273,8 +287,8 @@ public class gesPers extends javax.swing.JFrame {
                 th = Float.parseFloat(champTH.getText());
                 nbh = Float.parseFloat(champNbHeures.getText());
                 
-                Employe emp = new Employe(nom, tel, th, nbh);
-                cont.ajouter(emp.getNumPers(), emp);
+                p = new Employe(nom, tel, th, nbh);
+                cont.ajouter(p.getNumPers(), (Employe)p);
                 break; 
             case COMMERCIAL :
                 th = Float.parseFloat(champTH.getText());
@@ -282,16 +296,22 @@ public class gesPers extends javax.swing.JFrame {
                 pourc = Float.parseFloat(champPourcentage.getText());
                 ventes = Float.parseFloat(champVentes.getText());
                 
-                Commercial com = new Commercial(nom, tel, th, nbh, pourc, ventes);
-                cont.ajouter(com.getNumPers(), com);
+                p = new Commercial(nom, tel, th, nbh, pourc, ventes);
+                cont.ajouter(p.getNumPers(), (Commercial)p);
                 break;
             case DIRECTEUR :
                 indemn = Float.parseFloat(champIndemnite.getText());
                 
-                Directeur dir =  new Directeur(nom, tel, indemn);
-                cont.ajouter(dir.getNumPers(), dir);
+                p =  new Directeur(nom, tel, indemn);
+                cont.ajouter(p.getNumPers(), (Directeur)p);
                 break;
-        }   
+        }
+        try {
+            bd.inserer(p);
+        } catch (SQLException ex) {
+            showMessageDialog(this,"Problème lors de l'insertion dans la base de données","Erreur",ERROR_MESSAGE);
+            Logger.getLogger(gesPers.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     private void sauvegarder()
@@ -906,6 +926,12 @@ public class gesPers extends javax.swing.JFrame {
         {
             if(showConfirmDialog(this, "Êtes-vous sûr(e) de vouloir supprimer ce personnel ?", "Supprimer ...", YES_NO_OPTION) == YES_OPTION)
             {
+                try {
+                    bd.supprimer(cont.obtenir(champMatricule.getText()));
+                } catch (SQLException ex) {
+                    showMessageDialog(this,"Problème de suppression de la base de données","Erreur",ERROR_MESSAGE);
+                    Logger.getLogger(gesPers.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 cont.supprimer(champMatricule.getText());
                 modif = true;
             }
