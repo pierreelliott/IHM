@@ -52,6 +52,7 @@ public class AccesBDOracle {
     
     public void charger(TreeMap<String, Personnel> tm) throws SQLException
     {
+        instCo = instance.creerConnexion();
         String query = "SELECT matricule, nom, numtel, categorie, tauxHoraire, NbHeures, indemnites, pourcentage, totalVentes FROM personnel order by matricule";
         Personnel elt = null;
         instStat = instCo.createStatement();
@@ -77,6 +78,7 @@ public class AccesBDOracle {
     
     public void supprimer(Personnel p) throws SQLException
     {
+        instCo = instance.creerConnexion();
         PreparedStatement suppr = instCo.prepareStatement("Delete from personnel where matricule = ?");
         suppr.setString(1, p.getNumPers());
         suppr.executeUpdate();
@@ -85,6 +87,7 @@ public class AccesBDOracle {
     
     public void inserer(Personnel p) throws SQLException
     {
+        instCo = instance.creerConnexion();
         PreparedStatement inser = instCo.prepareStatement("Insert into personnel values (?, ?, ?, ?, ?, ?, ?, ?, ?)");
         inser.setString(1, p.getNumPers());
         inser.setString(2, p.getNomPers());
@@ -145,7 +148,7 @@ public class AccesBDOracle {
             OracleDataSource ods = new OracleDataSource(); 
             ods.setDriverType(props.getProperty("pilote")); 
             ods.setPortNumber(Integer.parseInt((props.getProperty("port")))); 
-            ods.setServiceName(props.getProperty("service")); 
+            ods.setDatabaseName(props.getProperty("service")); 
             ods.setUser(props.getProperty("user")); 
             ods.setPassword(props.getProperty("pwd")); 
             ods.setServerName(props.getProperty("serveur"));

@@ -43,7 +43,7 @@ public class gesPers extends javax.swing.JFrame {
         try {
             AccesBDOracle.getInstance().charger(tmap);
         } catch (SQLException ex) {
-            showMessageDialog(this,"Problème de chargement de la base de données","Erreur",ERROR_MESSAGE);
+            showMessageDialog(this, "Problème de chargement de la base de données", "Erreur", ERROR_MESSAGE);
             Logger.getLogger(gesPers.class.getName()).log(Level.SEVERE, null, ex);
         }
         
@@ -381,6 +381,7 @@ public class gesPers extends javax.swing.JFrame {
         menuAide = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setTitle("GesPers");
         setBackground(new java.awt.Color(237, 237, 214));
         setResizable(false);
 
@@ -926,7 +927,7 @@ public class gesPers extends javax.swing.JFrame {
                 try {
                     AccesBDOracle.getInstance().supprimer(cont.obtenir(champMatricule.getText()));
                 } catch (SQLException ex) {
-                    showMessageDialog(this,"Problème de suppression de la base de données","Erreur",ERROR_MESSAGE);
+                    showMessageDialog(this, "Problème de suppression de la base de données", "Erreur", ERROR_MESSAGE);
                     Logger.getLogger(gesPers.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 cont.supprimer(champMatricule.getText());
